@@ -1,6 +1,6 @@
 {
   "name": "boilerplate",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Projeto padrão node.js para novas aplicações",
   "main": "bin/index.js",
