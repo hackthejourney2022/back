@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "strict": true,
+    "typeRoots": ["./src/@types", "node_modules/@types"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "declaration": true,
+    "strictNullChecks": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importsNotUsedAsValues":"remove",
+    "target": "es2020",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "noImplicitAny": true,
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "useUnknownInCatchVariables": false,
+    "paths": {
+      "src/*": [
+        "./src/*"
+      ],
+      "test/*": [
+        "./test/*",
+      ]
+    },
+  },
+  "include": ["./src", "./test"]
+}
