@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { DatabaseException } from 'src/core/domain/exception';
 import { SampleRepository } from 'src/core/domain/repository/sample-repository';
 import { v4 as uuidv4 } from 'uuid';
-import { Sample } from '../../core/domain/model/sample';
 import { RedisSample } from './redis-sample';
 
 const keyPrefix = 'SAMPLE';
@@ -12,7 +11,7 @@ const loggerPrefix = 'Sample';
 @Injectable()
 export class RedisSampleRepository implements SampleRepository {
   constructor(private redis: RedisSample) {}
-  async getAll(): Promise<Sample[]> {
+  async getAll(): Promise<any[]> {
     try {
       const key = `${keyPrefix}:*`;
       const keys = await this.redis.keys(key);
@@ -21,7 +20,7 @@ export class RedisSampleRepository implements SampleRepository {
       const values = await this.redis.mget(keys);
       if ((values || []).length <= 0) return [];
 
-      const samples: Array<Sample> = fluent(values)
+      const samples: Array<any> = fluent(values)
         .filter()
         .map((value) => JSON.parse(value))
         .toArray();
@@ -34,7 +33,7 @@ export class RedisSampleRepository implements SampleRepository {
     }
   }
 
-  async getById(sampleId: string): Promise<Sample | null> {
+  async getById(sampleId: string): Promise<any | null> {
     try {
       const key = `${keyPrefix}:${sampleId}`;
       const resultText = await this.redis.get(key);
@@ -49,7 +48,7 @@ export class RedisSampleRepository implements SampleRepository {
     }
   }
 
-  async create(sample: Sample): Promise<string> {
+  async create(sample: any): Promise<string> {
     try {
       const ttl = 600;
       const id = uuidv4();

@@ -1,21 +1,21 @@
+import { AmadeusClient } from 'src/core/domain/client';
 import { BaseSampleService } from 'src/core/domain/service/base-sample-service';
 import { Test } from '@nestjs/testing';
-import { SampleRepository } from 'src/core/domain/repository/sample-repository';
-import { Sample } from 'src/core/domain/model/sample';
+import { LocationRequest } from 'src/core/domain/model';
 
 const proto = BaseSampleService.prototype;
 
 describe(BaseSampleService.name, () => {
   let target: BaseSampleService;
-  let repository: SampleRepository;
+  let client: AmadeusClient;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         BaseSampleService,
         {
-          provide: SampleRepository,
-          useValue: (repository = {} as any),
+          provide: AmadeusClient,
+          useValue: (client = {} as any),
         },
       ],
     }).compile();
@@ -23,17 +23,17 @@ describe(BaseSampleService.name, () => {
     target = moduleRef.get(BaseSampleService);
   });
 
-  describe(proto.create.name, () => {
+  describe(proto.getLocation.name, () => {
     beforeEach(() => {
-      repository.create = jest.fn().mockResolvedValue('expected value');
+      client.getNearestAirports = jest.fn().mockReturnValue('expected value');
     });
 
-    it('should create user', async () => {
-      const sample = 'sample value' as unknown as Sample;
+    it('should create user', () => {
+      const sample = 'sample value' as unknown as LocationRequest;
 
-      const result = await target.create(sample);
+      const result = target.getLocation(sample);
 
-      expect(repository.create).toHaveCallsLike(['sample value']);
+      expect(client.getNearestAirports).toHaveCallsLike(['sample value']);
       expect(result).toBe('expected value');
     });
   });

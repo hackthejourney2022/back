@@ -1,2 +1,2 @@
 export * from './health-check-controller';
-export * from './sample-controller';
+export * from './location-controller';

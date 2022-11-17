@@ -7,7 +7,7 @@ import {
 import { coreModules } from 'src/core/core-module';
 import { InfrastructureModule } from 'src/infrastructure/infrastructure-module';
 import { HealthCheckController } from './controller';
-import { SampleController } from './controller/sample-controller';
+import { LocationController } from './controller/location-controller';
 import * as filters from './exception-filter';
 import {
   RequestContextMiddleware,
@@ -18,7 +18,7 @@ import { AppLogger } from 'src/core/domain/utils';
 
 @Module({
   imports: [InfrastructureModule],
-  controllers: [HealthCheckController, SampleController],
+  controllers: [HealthCheckController, LocationController],
   providers: [
     ...coreModules,
     ...Object.values(filters),

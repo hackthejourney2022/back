@@ -1,8 +1,8 @@
-import { Sample } from '../model/sample';
+import { LocationRequest } from '../model/location-request';
 
 export abstract class SampleRepository {
-  abstract getAll(): Promise<Sample[]>;
-  abstract getById(sampleId: string): Promise<Sample | null>;
-  abstract create(sample: Sample): Promise<string>;
+  abstract getAll(): Promise<LocationRequest[]>;
+  abstract getById(sampleId: string): Promise<LocationRequest | null>;
+  abstract create(sample: LocationRequest): Promise<string>;
   abstract delete(sampleId: number): Promise<void>;
 }

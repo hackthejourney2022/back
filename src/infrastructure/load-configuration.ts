@@ -1,10 +1,12 @@
 import { fluentObject } from '@codibre/fluent-iterable';
 import ms from 'ms';
 import { RedisConfig } from './repository';
+import { AmadeusConfig } from './client/amadeus-config';
 
 export enum ConfigTypes {
   httpServer = 'httpServer',
   sampleRedis = 'sampleRedis',
+  amadeus = 'amadeus',
 }
 
 export class HttpServerConfig {
@@ -15,6 +17,7 @@ export class HttpServerConfig {
 export interface Config {
   [ConfigTypes.httpServer]: HttpServerConfig;
   [ConfigTypes.sampleRedis]: RedisConfig;
+  [ConfigTypes.amadeus]: AmadeusConfig;
 }
 const config = {
   [ConfigTypes.httpServer]: {
@@ -26,6 +29,10 @@ const config = {
     options: {
       password: undefined,
     },
+  },
+  [ConfigTypes.amadeus]: {
+    clientId: '',
+    clientSecret: '',
   },
 } as Config;
 
@@ -45,6 +52,10 @@ export async function loadConfiguration(): Promise<Config> {
           env.REDIS_PASSWORD ||
           config[ConfigTypes.sampleRedis].options.password,
       },
+    },
+    [ConfigTypes.amadeus]: {
+      clientId: env.AMADEUS_CLIENT_ID ?? '',
+      clientSecret: env.AMADEUS_CLIENT_SECRET ?? '',
     },
   };
   fluentObject(config).forEach(([k]) => {

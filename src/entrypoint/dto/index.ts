@@ -1,1 +1,1 @@
-export * from './sample-dto';
+export * from './location-request-dto';

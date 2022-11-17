@@ -1,23 +1,14 @@
+import { FluentAsyncIterable } from '@codibre/fluent-iterable';
+import { LocationResponse } from './../model/location-response';
+import { AmadeusClient } from 'src/core/domain/client';
 import { Injectable } from '@nestjs/common';
-import { Sample } from '../model/sample';
-import { SampleRepository } from '../repository/sample-repository';
+import { LocationRequest } from '../model/location-request';
 
 @Injectable()
 export class BaseSampleService {
-  constructor(private readonly repository: SampleRepository) {}
+  constructor(private readonly client: AmadeusClient) {}
 
-  async getAll(): Promise<Sample[]> {
-    const result = await this.repository.getAll();
-    return result;
-  }
-
-  async getById(id: string): Promise<Sample | null> {
-    const result = await this.repository.getById(id);
-    return result;
-  }
-
-  async create(sample: Sample): Promise<string> {
-    const result = await this.repository.create(sample);
-    return result;
+  getLocation(request: LocationRequest): FluentAsyncIterable<LocationResponse> {
+    return this.client.getNearestAirports(request);
   }
 }

@@ -19,6 +19,7 @@
     "noImplicitAny": true,
     "alwaysStrict": true,
     "strictBindCallApply": true,
+    "allowJs": true,
     "strictFunctionTypes": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
