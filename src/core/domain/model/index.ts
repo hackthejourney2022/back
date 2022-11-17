@@ -1,2 +1,3 @@
-export * from './location-request';
-export * from './location-response';
+export * from './airport';
+export * from './coordinates';
+export * from './place-airports';

@@ -1,9 +1,8 @@
-import { FluentAsyncIterable } from '@codibre/fluent-iterable';
-import { LocationRequest, LocationResponse } from 'src/core/domain/model';
+import { Coordinates, Airport } from 'src/core/domain/model';
 
 export abstract class AmadeusClient {
   abstract getNearestAirports(
-    request: LocationRequest,
-    approximateMax?: number,
-  ): FluentAsyncIterable<LocationResponse>;
+    request: Coordinates,
+    maxResults?: number,
+  ): Promise<Airport[]>;
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { LocationRequest } from 'src/core/domain/model';
+import { Coordinates } from 'src/core/domain/model';
 
 @Injectable()
 export class BaseSampleValidator {
@@ -7,7 +7,7 @@ export class BaseSampleValidator {
     return !!sampleId;
   }
 
-  async validateParams(_params: LocationRequest): Promise<void> {
+  async validateParams(_params: Coordinates): Promise<void> {
     // no validation
   }
 }

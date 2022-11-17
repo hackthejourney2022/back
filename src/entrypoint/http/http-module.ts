@@ -13,20 +13,10 @@ import {
   RequestContextMiddleware,
   RequestLoggerMiddleware,
 } from './middleware';
-import { logger } from './logger';
-import { AppLogger } from 'src/core/domain/utils';
-
 @Module({
   imports: [InfrastructureModule],
   controllers: [HealthCheckController, LocationController],
-  providers: [
-    ...coreModules,
-    ...Object.values(filters),
-    {
-      provide: AppLogger,
-      useValue: logger,
-    },
-  ],
+  providers: [...coreModules, ...Object.values(filters)],
 })
 export class HttpModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {

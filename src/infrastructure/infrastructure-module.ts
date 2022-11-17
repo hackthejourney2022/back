@@ -1,7 +1,13 @@
+import { GeneralCache } from './cache/general-cache';
+import { CacheConfig } from './cache/cache-config';
+import { NominatimGeocoderClient } from './client/nominatim/nominatim-geocoder-client';
+import { GeocoderClient } from 'src/core/domain/client/geocoder-client';
+import { HttpNominatimClient } from './client/nominatim/http-nominatim-client';
+import { NominatimConfig } from './client/nominatim/nominatim-config';
 import { AmadeusClient } from 'src/core/domain/client';
 import { Module } from '@nestjs/common';
 import { SampleRepository } from 'src/core/domain/repository/sample-repository';
-import { ApiAmadeusClient } from './client/api-amadeus-client';
+import { ApiAmadeusClient, getAmadeus } from './client/amadeus';
 import { RedisSample } from './repository/redis-sample';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import {
@@ -11,9 +17,10 @@ import {
 } from './load-configuration';
 import { RedisConfig } from './repository';
 import { configGetter } from './config-getter';
-import { getAmadeus } from './client/base-amadeus-client';
-import { AmadeusConfig } from './client/amadeus-config';
+import { AmadeusConfig } from './client/amadeus/amadeus-config';
 import { RedisSampleRepository } from './repository/redis-sample-repository';
+import { AppLogger } from 'src/core/domain/utils';
+import { logger } from './logger';
 
 @Module({
   imports: [
@@ -23,20 +30,21 @@ import { RedisSampleRepository } from './repository/redis-sample-repository';
     }),
   ],
   providers: [
+    // clients
     {
       provide: AmadeusClient,
       useClass: ApiAmadeusClient,
     },
     {
+      provide: GeocoderClient,
+      useClass: NominatimGeocoderClient,
+    },
+    // Repositories
+    {
       provide: SampleRepository,
       useClass: RedisSampleRepository,
     },
-    {
-      provide: RedisSample,
-      useFactory: (config: RedisConfig) =>
-        new RedisSample(config.url, config.options),
-      inject: [RedisConfig],
-    },
+    // Configs
     {
       provide: RedisConfig,
       useFactory: configGetter(ConfigTypes.sampleRedis),
@@ -53,11 +61,35 @@ import { RedisSampleRepository } from './repository/redis-sample-repository';
       inject: [ConfigService],
     },
     {
+      provide: NominatimConfig,
+      useFactory: configGetter(ConfigTypes.nominatim),
+      inject: [ConfigService],
+    },
+    {
+      provide: CacheConfig,
+      useFactory: configGetter(ConfigTypes.cache),
+      inject: [ConfigService],
+    },
+    // Base clients
+    {
       provide: 'AMADEUS',
       useFactory: (x: AmadeusConfig) => getAmadeus(x.clientId, x.clientSecret),
       inject: [AmadeusConfig],
     },
+    {
+      provide: RedisSample,
+      useFactory: (config: RedisConfig) =>
+        new RedisSample(config.url, config.options),
+      inject: [RedisConfig],
+    },
+    HttpNominatimClient,
+    GeneralCache,
+    // Logger
+    {
+      provide: AppLogger,
+      useValue: logger,
+    },
   ],
-  exports: [AmadeusClient, SampleRepository],
+  exports: [AmadeusClient, GeocoderClient, SampleRepository, AppLogger],
 })
 export class InfrastructureModule {}

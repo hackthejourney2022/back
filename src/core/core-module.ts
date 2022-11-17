@@ -1,4 +1,4 @@
 import { BaseSampleValidator } from './application/validators/base-sample-validator';
-import { BaseSampleService } from './domain/service/base-sample-service';
+import { LocationService } from './domain/service/location-service';
 
-export const coreModules = [BaseSampleService, BaseSampleValidator];
+export const coreModules = [LocationService, BaseSampleValidator];
