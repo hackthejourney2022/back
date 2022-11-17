@@ -1,5 +1,5 @@
 import { GeocoderClient } from 'src/core/domain/client/geocoder-client';
-import { AmadeusClient } from 'src/core/domain/client';
+import { AirportsClient } from 'src/core/domain/client';
 import { LocationService } from 'src/core/domain/service';
 import { Test } from '@nestjs/testing';
 import { Coordinates } from 'src/core/domain/model';
@@ -8,7 +8,7 @@ const proto = LocationService.prototype;
 
 describe(LocationService.name, () => {
   let target: LocationService;
-  let amadeus: AmadeusClient;
+  let airports: AirportsClient;
   let geocoder: GeocoderClient;
 
   beforeEach(async () => {
@@ -16,8 +16,8 @@ describe(LocationService.name, () => {
       providers: [
         LocationService,
         {
-          provide: AmadeusClient,
-          useValue: (amadeus = {} as any),
+          provide: AirportsClient,
+          useValue: (airports = {} as any),
         },
         {
           provide: GeocoderClient,
@@ -31,7 +31,7 @@ describe(LocationService.name, () => {
 
   describe(proto.getLocation.name, () => {
     beforeEach(() => {
-      amadeus.getNearestAirports = jest.fn().mockReturnValue('expected value');
+      airports.getNearestAirports = jest.fn().mockReturnValue('expected value');
     });
 
     it('should create user', () => {
@@ -39,7 +39,7 @@ describe(LocationService.name, () => {
 
       const result = target.getLocation(sample);
 
-      expect(amadeus.getNearestAirports).toHaveCallsLike(['sample value']);
+      expect(airports.getNearestAirports).toHaveCallsLike(['sample value']);
       expect(result).toBe('expected value');
     });
   });
@@ -49,7 +49,7 @@ describe(LocationService.name, () => {
       geocoder.getPlaces = jest
         .fn()
         .mockResolvedValue([{ coordinates: 'abc' }]);
-      amadeus.getNearestAirports = jest
+      airports.getNearestAirports = jest
         .fn()
         .mockResolvedValue(['expected value']);
     });
@@ -60,7 +60,7 @@ describe(LocationService.name, () => {
       const result = await target.getLocationByText(search).toArray();
 
       expect(geocoder.getPlaces).toHaveCallsLike([search]);
-      expect(amadeus.getNearestAirports).toHaveCallsLike(['abc', 3]);
+      expect(airports.getNearestAirports).toHaveCallsLike(['abc', 3]);
       expect(result).toEqual([
         {
           place: { coordinates: 'abc' },

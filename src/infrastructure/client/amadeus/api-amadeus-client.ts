@@ -1,6 +1,6 @@
 import { Amadeus } from './base-amadeus-client';
 import { Inject, Injectable } from '@nestjs/common';
-import { AmadeusClient } from 'src/core/domain/client';
+import { AirportsClient } from 'src/core/domain/client';
 import { Coordinates, Airport } from 'src/core/domain/model';
 import {
     depaginate,
@@ -37,7 +37,7 @@ function depaginateAmadeus(
 }
 
 @Injectable()
-export class ApiAmadeusClient implements AmadeusClient {
+export class ApiAmadeusClient implements AirportsClient {
     constructor(
         @Inject('AMADEUS') private amadeus: Amadeus,
         private cache: GeneralCache,

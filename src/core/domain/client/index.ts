@@ -1,1 +1,1 @@
-export * from './amadeus-client';
+export * from './airports-client';

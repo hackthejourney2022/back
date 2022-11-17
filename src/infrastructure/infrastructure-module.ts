@@ -4,7 +4,7 @@ import { NominatimGeocoderClient } from './client/nominatim/nominatim-geocoder-c
 import { GeocoderClient } from 'src/core/domain/client/geocoder-client';
 import { HttpNominatimClient } from './client/nominatim/http-nominatim-client';
 import { NominatimConfig } from './client/nominatim/nominatim-config';
-import { AmadeusClient } from 'src/core/domain/client';
+import { AirportsClient } from 'src/core/domain/client';
 import { Module } from '@nestjs/common';
 import { SampleRepository } from 'src/core/domain/repository/sample-repository';
 import { ApiAmadeusClient, getAmadeus } from './client/amadeus';
@@ -32,7 +32,7 @@ import { logger } from './logger';
   providers: [
     // clients
     {
-      provide: AmadeusClient,
+      provide: AirportsClient,
       useClass: ApiAmadeusClient,
     },
     {
@@ -90,6 +90,6 @@ import { logger } from './logger';
       useValue: logger,
     },
   ],
-  exports: [AmadeusClient, GeocoderClient, SampleRepository, AppLogger],
+  exports: [AirportsClient, GeocoderClient, SampleRepository, AppLogger],
 })
 export class InfrastructureModule {}
