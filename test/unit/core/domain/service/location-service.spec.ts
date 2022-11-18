@@ -1,5 +1,9 @@
 import { GeocoderClient } from 'src/core/domain/client/geocoder-client';
-import { AirportsClient, SafePlaceClient, LocationScoreClient } from 'src/core/domain/client';
+import {
+  AirportsClient,
+  SafePlaceClient,
+  LocationScoreClient,
+} from 'src/core/domain/client';
 import { LocationService } from 'src/core/domain/service';
 import { Test } from '@nestjs/testing';
 import { Coordinates } from 'src/core/domain/model';
