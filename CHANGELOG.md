@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/hackthejourney2022/back/compare/v0.2.0...v0.3.0) (2022-11-18)
+
+
+### Features
+
+* adding shopping-flights route ([f8e9b80](https://github.com/hackthejourney2022/back/commit/f8e9b801535d4994722ce6cddca9e57e4d944f01))
+
 # [0.2.0](https://github.com/hackthejourney2022/back/compare/v0.1.0...v0.2.0) (2022-11-17)
 
 
