@@ -25,4 +25,11 @@ export class LocationController {
   public async getSafetyRates(@Query() request: CoordinatesDto) {
     return this.service.getSafetyRates(plainToInstance(Coordinates, request));
   }
+
+  @Get('/category-rated-areas')
+  public async getCategoryRatedAreas(@Query() request: CoordinatesDto) {
+    return this.service.getCategoryRatedAreas(
+      plainToInstance(Coordinates, request),
+    );
+  }
 }

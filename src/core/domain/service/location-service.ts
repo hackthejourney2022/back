@@ -5,10 +5,11 @@ import {
   AirportsClient,
   GeocoderClient,
   SafePlaceClient,
+  LocationScoreClient,
 } from 'src/core/domain/client';
 import { Injectable } from '@nestjs/common';
 import { Coordinates } from '../model/coordinates';
-import { SafetyRate } from '../model';
+import { SafetyRate, CategoryRatedArea } from '../model';
 
 const MAX_AIRPORTS_PER_PLACE = 3;
 @Injectable()
@@ -17,6 +18,7 @@ export class LocationService {
     private readonly airports: AirportsClient,
     private readonly geocoder: GeocoderClient,
     private readonly safePlace: SafePlaceClient,
+    private readonly locationScore: LocationScoreClient,
   ) {}
 
   getLocation(request: Coordinates): Promise<Airport[]> {
@@ -40,5 +42,9 @@ export class LocationService {
 
   getSafetyRates(request: Coordinates): Promise<SafetyRate[]> {
     return this.safePlace.getSafetyRate(request);
+  }
+
+  getCategoryRatedAreas(request: Coordinates): Promise<CategoryRatedArea[]> {
+    return this.locationScore.getCategoryRatedAreas(request);
   }
 }

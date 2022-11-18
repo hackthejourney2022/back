@@ -1,5 +1,5 @@
 import { GeocoderClient } from 'src/core/domain/client/geocoder-client';
-import { AirportsClient, SafePlaceClient } from 'src/core/domain/client';
+import { AirportsClient, SafePlaceClient, LocationScoreClient } from 'src/core/domain/client';
 import { LocationService } from 'src/core/domain/service';
 import { Test } from '@nestjs/testing';
 import { Coordinates } from 'src/core/domain/model';
@@ -11,6 +11,7 @@ describe(LocationService.name, () => {
   let airports: AirportsClient;
   let geocoder: GeocoderClient;
   let safePlace: SafePlaceClient;
+  let _locationScore: LocationScoreClient;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -27,6 +28,10 @@ describe(LocationService.name, () => {
         {
           provide: SafePlaceClient,
           useValue: (safePlace = {} as any),
+        },
+        {
+          provide: LocationScoreClient,
+          useValue: (_locationScore = {} as any),
         },
       ],
     }).compile();
