@@ -1,3 +1,4 @@
+import { AmadeusHttpResponse } from './models';
 import { Amadeus } from './base-amadeus-client';
 import {
     depaginate,
@@ -5,15 +6,15 @@ import {
     fluentAsync,
 } from '@codibre/fluent-iterable';
 
-export function depaginateAmadeus(
+export function depaginateAmadeus<T>(
     amadeus: Amadeus,
-    req: (payload: object) => Promise<any>,
+    req: (payload: object) => Promise<AmadeusHttpResponse<T[]>>,
     request: object,
     maxResults?: number,
-): FluentAsyncIterable<any> {
+): FluentAsyncIterable<T> {
     let count = 0;
     let result = fluentAsync(
-        depaginate(async (last: any) => {
+        depaginate<T, any>(async (last: any) => {
             if (
                 !last ||
                 (maxResults &&
@@ -21,6 +22,9 @@ export function depaginateAmadeus(
                     count < maxResults)
             ) {
                 const body = await (last ? amadeus.next(last) : req(request));
+                if (!body.data?.length) {
+                    return undefined;
+                }
                 count += body.data.length;
                 return {
                     results: body.data,

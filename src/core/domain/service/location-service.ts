@@ -1,10 +1,14 @@
 import { PlaceAirports } from './../model/place-airports';
-import { GeocoderClient } from 'src/core/domain/client/geocoder-client';
 import { fluentAsync, FluentAsyncIterable } from '@codibre/fluent-iterable';
 import { Airport } from '../model/airport';
-import { AirportsClient } from 'src/core/domain/client';
+import {
+  AirportsClient,
+  GeocoderClient,
+  SafePlaceClient,
+} from 'src/core/domain/client';
 import { Injectable } from '@nestjs/common';
 import { Coordinates } from '../model/coordinates';
+import { SafetyRate } from '../model';
 
 const MAX_AIRPORTS_PER_PLACE = 3;
 @Injectable()
@@ -12,6 +16,7 @@ export class LocationService {
   constructor(
     private readonly airports: AirportsClient,
     private readonly geocoder: GeocoderClient,
+    private readonly safePlace: SafePlaceClient,
   ) {}
 
   getLocation(request: Coordinates): Promise<Airport[]> {
@@ -31,5 +36,9 @@ export class LocationService {
         };
       })
       .filter((x) => x.airports.length);
+  }
+
+  getSafetyRates(request: Coordinates): Promise<SafetyRate[]> {
+    return this.safePlace.getSafetyRate(request);
   }
 }

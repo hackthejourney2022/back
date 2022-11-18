@@ -13,10 +13,16 @@ export class LocationController {
   public async getByCoordinates(@Query() request: CoordinatesDto) {
     return this.service.getLocation(plainToInstance(Coordinates, request));
   }
+
   @Get('/text')
   public async getByText(@Query() request: PlaceQueryDto) {
     const result = this.service.getLocationByText(request.search);
 
     return result.toArray();
+  }
+
+  @Get('/safety-rates')
+  public async getSafetyRates(@Query() request: CoordinatesDto) {
+    return this.service.getSafetyRates(plainToInstance(Coordinates, request));
   }
 }
