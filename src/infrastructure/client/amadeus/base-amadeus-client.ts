@@ -1,5 +1,9 @@
 import { FlightSearchResponse } from 'src/core/domain/model';
-import { AmadeusHttpResponse, AmadeusLocation } from './models';
+import {
+    AmadeusHttpResponse,
+    AmadeusLocation,
+    CategoryRatedArea,
+} from './models';
 export interface Amadeus {
     next(nextToken: any): Promise<any>;
     version: string;
@@ -37,7 +41,7 @@ export interface Location {
 }
 
 export interface Analytics3 {
-    categoryRatedAreas: AmadeusRequests;
+    categoryRatedAreas: AmadeusRequests<CategoryRatedArea[]>;
 }
 
 export interface Analytics2 {

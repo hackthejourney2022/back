@@ -4,6 +4,7 @@ import {
   AirportsClient,
   FlightShoppingClient,
   GeocoderClient,
+  LocationScoreClient,
 } from 'src/core/domain/client';
 import { GeneralCache } from './cache/general-cache';
 import { CacheConfig } from './cache/cache-config';
@@ -30,6 +31,7 @@ import { RedisSampleRepository } from './repository/redis-sample-repository';
 import { AppLogger } from 'src/core/domain/utils';
 import { logger } from './logger';
 import { ApiAmadeusGeocoderClient } from './client/amadeus/api-amadeus-geocoder-client';
+import { ApiAmadeusLocationScoreClient } from 'src/infrastructure/client/amadeus/api-amadeus-location-score-client';
 
 @Module({
   imports: [
@@ -52,6 +54,10 @@ import { ApiAmadeusGeocoderClient } from './client/amadeus/api-amadeus-geocoder-
       provide: GeocoderClient,
       // useClass: NominatimGeocoderClient,
       useClass: ApiAmadeusGeocoderClient,
+    },
+    {
+      provide: LocationScoreClient,
+      useClass: ApiAmadeusLocationScoreClient,
     },
     {
       provide: SafePlaceClient,
@@ -113,6 +119,7 @@ import { ApiAmadeusGeocoderClient } from './client/amadeus/api-amadeus-geocoder-
     AppLogger,
     FlightShoppingClient,
     GeocoderClient,
+    LocationScoreClient,
     SafePlaceClient,
     SampleRepository,
   ],
