@@ -11,8 +11,8 @@ interface NominatimPlace {
     osm_type: string;
     osm_id: number;
     boundingbox: string[];
-    lat: string;
-    lon: string;
+    lat: number;
+    lon: number;
     display_name: string;
     place_rank: number;
     category: string;

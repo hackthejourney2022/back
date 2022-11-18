@@ -6,8 +6,7 @@ import {
 } from '@nestjs/common';
 import { coreModules } from 'src/core/core-module';
 import { InfrastructureModule } from 'src/infrastructure/infrastructure-module';
-import { HealthCheckController } from './controller';
-import { LocationController } from './controller/location-controller';
+import * as controllers from './controller';
 import * as filters from './exception-filter';
 import {
   RequestContextMiddleware,
@@ -15,7 +14,7 @@ import {
 } from './middleware';
 @Module({
   imports: [InfrastructureModule],
-  controllers: [HealthCheckController, LocationController],
+  controllers: Object.values(controllers),
   providers: [...coreModules, ...Object.values(filters)],
 })
 export class HttpModule implements NestModule {
