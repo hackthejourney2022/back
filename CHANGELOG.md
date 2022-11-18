@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/hackthejourney2022/back/compare/v0.3.0...v0.4.0) (2022-11-18)
+
+
+### Features
+
+* adding safe place and amadeus geocoding implementation ([#3](https://github.com/hackthejourney2022/back/issues/3)) ([b144fc9](https://github.com/hackthejourney2022/back/commit/b144fc9acbba1534485504c0b44b0edef8df2a7a))
+
 # [0.3.0](https://github.com/hackthejourney2022/back/compare/v0.2.0...v0.3.0) (2022-11-18)
 
 
