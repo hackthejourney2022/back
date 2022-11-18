@@ -1,7 +1,6 @@
-import { Coordinates } from 'src/core/domain/model';
 import { IsString } from 'class-validator';
 
-export class CoordinatesDto implements Coordinates {
+export class CoordinatesDto {
   @IsString()
   longitude!: string;
   @IsString()

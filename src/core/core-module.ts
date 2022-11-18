@@ -1,4 +1,4 @@
+import { FlightShoppingService, LocationService } from './domain/service';
 import { BaseSampleValidator } from './application/validators/base-sample-validator';
-import { LocationService } from './domain/service/location-service';
 
-export const coreModules = [LocationService, BaseSampleValidator];
+export const coreModules = [FlightShoppingService, LocationService, BaseSampleValidator];

@@ -1,13 +1,12 @@
+import { AirportsClient, FlightShoppingClient,  GeocoderClient } from 'src/core/domain/client';
 import { GeneralCache } from './cache/general-cache';
 import { CacheConfig } from './cache/cache-config';
 import { NominatimGeocoderClient } from './client/nominatim/nominatim-geocoder-client';
-import { GeocoderClient } from 'src/core/domain/client/geocoder-client';
 import { HttpNominatimClient } from './client/nominatim/http-nominatim-client';
 import { NominatimConfig } from './client/nominatim/nominatim-config';
-import { AirportsClient } from 'src/core/domain/client';
 import { Module } from '@nestjs/common';
 import { SampleRepository } from 'src/core/domain/repository/sample-repository';
-import { ApiAmadeusClient, getAmadeus } from './client/amadeus';
+import { ApiAmadeusAirportsClient, ApiAmadeusFlightShoppingClient, getAmadeus } from './client/amadeus';
 import { RedisSample } from './repository/redis-sample';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import {
@@ -33,7 +32,11 @@ import { logger } from './logger';
     // clients
     {
       provide: AirportsClient,
-      useClass: ApiAmadeusClient,
+      useClass: ApiAmadeusAirportsClient,
+    },
+    {
+      provide: FlightShoppingClient,
+      useClass: ApiAmadeusFlightShoppingClient,
     },
     {
       provide: GeocoderClient,
@@ -90,6 +93,6 @@ import { logger } from './logger';
       useValue: logger,
     },
   ],
-  exports: [AirportsClient, GeocoderClient, SampleRepository, AppLogger],
+  exports: [AirportsClient, FlightShoppingClient, GeocoderClient, SampleRepository, AppLogger],
 })
 export class InfrastructureModule {}
