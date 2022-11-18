@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/hackthejourney2022/back/compare/v0.4.0...v0.4.1) (2022-11-18)
+
+
+### Bug Fixes
+
+* Rename cache key to name of method ([#6](https://github.com/hackthejourney2022/back/issues/6)) ([45461fd](https://github.com/hackthejourney2022/back/commit/45461fd9f259ab5f4bc21d6fcfd4e23675958b91))
+
 # [0.4.0](https://github.com/hackthejourney2022/back/compare/v0.3.0...v0.4.0) (2022-11-18)
 
 
