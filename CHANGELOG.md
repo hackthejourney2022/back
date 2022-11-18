@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/hackthejourney2022/back/compare/v0.4.1...v0.5.0) (2022-11-18)
+
+
+### Features
+
+* Location score ([#7](https://github.com/hackthejourney2022/back/issues/7)) ([335d3a5](https://github.com/hackthejourney2022/back/commit/335d3a57b27f7be8ed371ac786319a01b8c3a75d))
+
 ## [0.4.1](https://github.com/hackthejourney2022/back/compare/v0.4.0...v0.4.1) (2022-11-18)
 
 
