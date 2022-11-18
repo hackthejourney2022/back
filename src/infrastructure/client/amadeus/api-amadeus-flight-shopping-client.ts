@@ -21,7 +21,7 @@ export class ApiAmadeusFlightShoppingClient implements FlightShoppingClient {
         request: FlightSearchRequest,
     ): Promise<FlightSearchResponse[]> {
         return this.cache.get(
-            `${request.originLocationCode}:${request.destinationLocationCode}:${request.departureDate}:${request.returnDate}:${request.adults}${request.children}${request.infants}`,
+            `getOffers:${request.originLocationCode}:${request.destinationLocationCode}:${request.departureDate}:${request.returnDate}:${request.adults}${request.children}${request.infants}`,
             () =>
                 depaginateAmadeus(
                     this.amadeus,

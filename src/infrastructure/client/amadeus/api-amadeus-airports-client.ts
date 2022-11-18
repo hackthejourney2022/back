@@ -14,7 +14,7 @@ export class ApiAmadeusAirportsClient implements AirportsClient {
         this.getNearestAirports = this.cache.wrap(
             this.getNearestAirports.bind(this),
             (req, maxResults) =>
-                `${this.getNearestAirports.name}${req.latitude}:${req.longitude}:${maxResults}`,
+                `getNearestAirports:${req.latitude}:${req.longitude}:${maxResults}`,
         );
     }
 
