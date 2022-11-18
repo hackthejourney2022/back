@@ -1,3 +1,4 @@
+import { LocationScoreClient } from 'src/core/domain/client/location-score-client';
 import { GeocoderClient } from 'src/core/domain/client/geocoder-client';
 import { AirportsClient, SafePlaceClient } from 'src/core/domain/client';
 import { LocationService } from 'src/core/domain/service';
@@ -11,6 +12,7 @@ describe(LocationService.name, () => {
   let airports: AirportsClient;
   let geocoder: GeocoderClient;
   let safePlace: SafePlaceClient;
+  let score: LocationScoreClient;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -27,6 +29,10 @@ describe(LocationService.name, () => {
         {
           provide: SafePlaceClient,
           useValue: (safePlace = {} as any),
+        },
+        {
+          provide: LocationScoreClient,
+          useValue: (score = {} as any),
         },
       ],
     }).compile();
@@ -115,6 +121,23 @@ describe(LocationService.name, () => {
 
       expect(safePlace.getSafetyRate).toHaveCallsLike([coordinates]);
       expect(result).toBe('safe place result');
+    });
+  });
+
+  describe(proto.getScore.name, () => {
+    beforeEach(() => {
+      score.getScore = jest
+        .fn()
+        .mockResolvedValue('score result');
+    });
+
+    it('should create user', async () => {
+      const coordinates = 'coordinates value' as unknown as Coordinates;
+
+      const result = await target.getScore(coordinates);
+
+      expect(score.getScore).toHaveCallsLike([coordinates]);
+      expect(result).toBe('score result');
     });
   });
 });
