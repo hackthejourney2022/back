@@ -23,6 +23,9 @@ export async function httpMain() {
       querystringParser: qs.parse.bind(qs),
     }),
   );
+  app.enableCors({
+    allowedHeaders: '*',
+  });
 
   app.useGlobalFilters(app.get(GlobalExceptionsFilter));
   const { name, version } = sync();

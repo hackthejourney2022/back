@@ -1,3 +1,5 @@
+import { FlightSearchResponse } from 'src/core/domain/model';
+import { AmadeusHttpResponse, AmadeusLocation } from './models';
 export interface Amadeus {
     next(nextToken: any): Promise<any>;
     version: string;
@@ -8,7 +10,7 @@ export interface Amadeus {
     eReputation: EReputation;
     media: Media;
     airport: Airport;
-    pagination: CheckinLinks;
+    pagination: AmadeusRequests;
     safety: Safety;
     schedule: Schedule;
     analytics: Analytics2;
@@ -18,7 +20,7 @@ export interface Amadeus {
 }
 
 export interface Airline {
-    destinations: CheckinLinks;
+    destinations: AmadeusRequests;
 }
 
 export interface DutyOfCare {
@@ -26,8 +28,8 @@ export interface DutyOfCare {
 }
 
 export interface Diseases {
-    covid19AreaReport: CheckinLinks;
-    covid19Report: CheckinLinks;
+    covid19AreaReport: AmadeusRequests;
+    covid19Report: AmadeusRequests;
 }
 
 export interface Location {
@@ -35,15 +37,15 @@ export interface Location {
 }
 
 export interface Analytics3 {
-    categoryRatedAreas: CheckinLinks;
+    categoryRatedAreas: AmadeusRequests;
 }
 
 export interface Analytics2 {
-    itineraryPriceMetrics: CheckinLinks;
+    itineraryPriceMetrics: AmadeusRequests;
 }
 
 export interface Schedule {
-    flights: CheckinLinks;
+    flights: AmadeusRequests;
 }
 
 export interface Safety {
@@ -51,31 +53,31 @@ export interface Safety {
 }
 
 export interface Airport {
-    directDestinations: CheckinLinks;
+    directDestinations: AmadeusRequests;
     predictions: Predictions2;
 }
 
 export interface Predictions2 {
-    onTime: CheckinLinks;
+    onTime: AmadeusRequests;
 }
 
 export interface Media {
-    files: CheckinLinks;
+    files: AmadeusRequests;
 }
 
 export interface EReputation {
-    hotelSentiments: CheckinLinks;
+    hotelSentiments: AmadeusRequests;
 }
 
 export interface Travel {
     analytics: Analytics;
     predictions: Predictions;
-    tripParser: CheckinLinks;
+    tripParser: AmadeusRequests;
 }
 
 export interface Predictions {
-    tripPurpose: CheckinLinks;
-    flightDelay: CheckinLinks;
+    tripPurpose: AmadeusRequests;
+    flightDelay: AmadeusRequests;
 }
 
 export interface Analytics {
@@ -89,48 +91,48 @@ export interface AirTraffic {
 }
 
 export interface Booking {
-    flightOrders: CheckinLinks;
-    hotelBookings: CheckinLinks;
+    flightOrders: AmadeusRequests;
+    hotelBookings: AmadeusRequests;
 }
 
 export interface Shopping {
-    flightDestinations: CheckinLinks;
+    flightDestinations: AmadeusRequests;
     flightOffers: FlightOffers;
-    flightOffersSearch: CheckinLinks;
-    flightDates: CheckinLinks;
-    seatmaps: CheckinLinks;
-    hotelOffers: CheckinLinks;
-    hotelOffersByHotel: CheckinLinks;
-    hotelOffersSearch: CheckinLinks;
+    flightOffersSearch: AmadeusRequests<FlightSearchResponse[]>;
+    flightDates: AmadeusRequests;
+    seatmaps: AmadeusRequests;
+    hotelOffers: AmadeusRequests;
+    hotelOffersByHotel: AmadeusRequests;
+    hotelOffersSearch: AmadeusRequests;
     activities: Activities;
     availability: Availability;
 }
 
 export interface Availability {
-    flightAvailabilities: CheckinLinks;
+    flightAvailabilities: AmadeusRequests;
 }
 
-export interface Activities {
-    bySquare: CheckinLinks;
+export interface Activities extends AmadeusRequests<any[]> {
+    bySquare: AmadeusRequests;
 }
 
 export interface FlightOffers {
-    prediction: CheckinLinks;
-    pricing: CheckinLinks;
-    upselling: CheckinLinks;
+    prediction: AmadeusRequests;
+    pricing: AmadeusRequests;
+    upselling: AmadeusRequests;
 }
 
 export interface ReferenceData {
     urls: Urls;
     locations: Locations;
-    airlines: CheckinLinks;
-    recommendedLocations: CheckinLinks;
+    airlines: AmadeusRequests;
+    recommendedLocations: AmadeusRequests;
 }
 
-export interface Locations {
-    airports: CheckinLinks;
-    cities: CheckinLinks;
-    hotel: CheckinLinks;
+export interface Locations extends AmadeusRequests<AmadeusLocation[]> {
+    airports: AmadeusRequests<AmadeusLocation[]>;
+    cities: AmadeusRequests<AmadeusLocation[]>;
+    hotel: AmadeusRequests<AmadeusLocation[]>;
     hotels: Hotels;
     pointsOfInterest: PointsOfInterest;
 }
@@ -152,19 +154,19 @@ export interface ByCity {
 export interface Client {
     clientId: string;
     clientSecret: string;
-    logger: CheckinLinks;
+    logger: AmadeusRequests;
     logLevel: string;
     host: string;
     port: number;
     ssl: boolean;
     customAppId?: string;
     customAppVersion?: string;
-    accessToken: CheckinLinks;
+    accessToken: AmadeusRequests;
     version: string;
 }
 
 export interface SessionCache {
-    map: CheckinLinks;
+    map: AmadeusRequests;
     list: unknown[];
 }
 
@@ -174,7 +176,7 @@ export interface Options {
 }
 
 export interface Urls {
-    checkinLinks: CheckinLinks;
+    checkinLinks: AmadeusRequests;
 }
 
 export interface CheckinLinksRequest {
@@ -264,10 +266,10 @@ interface Items {
     $ref: string;
 }
 
-export interface CheckinLinks {
-    (id: string): Promise<any>;
-    get(request: any): Promise<any>;
-    post(request: any): Promise<any>;
+export interface AmadeusRequests<TGet = any, TPost = any, T = any> {
+    (id: string): Promise<AmadeusHttpResponse<T>>;
+    get(request: any): Promise<AmadeusHttpResponse<TGet>>;
+    post(request: any): Promise<AmadeusHttpResponse<TPost>>;
 }
 
 const AmadeusClass = require('amadeus');

@@ -1,5 +1,5 @@
 import { GeocoderClient } from 'src/core/domain/client/geocoder-client';
-import { AirportsClient } from 'src/core/domain/client';
+import { AirportsClient, SafePlaceClient } from 'src/core/domain/client';
 import { LocationService } from 'src/core/domain/service';
 import { Test } from '@nestjs/testing';
 import { Coordinates } from 'src/core/domain/model';
@@ -10,6 +10,7 @@ describe(LocationService.name, () => {
   let target: LocationService;
   let airports: AirportsClient;
   let geocoder: GeocoderClient;
+  let safePlace: SafePlaceClient;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -22,6 +23,10 @@ describe(LocationService.name, () => {
         {
           provide: GeocoderClient,
           useValue: (geocoder = {} as any),
+        },
+        {
+          provide: SafePlaceClient,
+          useValue: (safePlace = {} as any),
         },
       ],
     }).compile();
@@ -67,6 +72,49 @@ describe(LocationService.name, () => {
           airports: ['expected value'],
         },
       ]);
+    });
+  });
+
+  describe(proto.getLocationByText.name, () => {
+    beforeEach(() => {
+      geocoder.getPlaces = jest
+        .fn()
+        .mockResolvedValue([{ coordinates: 'abc' }]);
+      airports.getNearestAirports = jest
+        .fn()
+        .mockResolvedValue(['expected value']);
+    });
+
+    it('should create user', async () => {
+      const search = 'sample value';
+
+      const result = await target.getLocationByText(search).toArray();
+
+      expect(geocoder.getPlaces).toHaveCallsLike([search]);
+      expect(airports.getNearestAirports).toHaveCallsLike(['abc', 3]);
+      expect(result).toEqual([
+        {
+          place: { coordinates: 'abc' },
+          airports: ['expected value'],
+        },
+      ]);
+    });
+  });
+
+  describe(proto.getSafetyRates.name, () => {
+    beforeEach(() => {
+      safePlace.getSafetyRate = jest
+        .fn()
+        .mockResolvedValue('safe place result');
+    });
+
+    it('should create user', async () => {
+      const coordinates = 'coordinates value' as unknown as Coordinates;
+
+      const result = await target.getSafetyRates(coordinates);
+
+      expect(safePlace.getSafetyRate).toHaveCallsLike([coordinates]);
+      expect(result).toBe('safe place result');
     });
   });
 });
