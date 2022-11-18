@@ -14,7 +14,7 @@ export class ApiAmadeusSafePlaceClient implements SafePlaceClient {
         this.getSafetyRate = this.cache.wrap(
             this.getSafetyRate.bind(this),
             (req, maxResults) =>
-                `${this.getSafetyRate.name}${req.latitude}:${req.longitude}:${maxResults}`,
+                `getSafetyRate:${req.latitude}:${req.longitude}:${maxResults}`,
         );
     }
 

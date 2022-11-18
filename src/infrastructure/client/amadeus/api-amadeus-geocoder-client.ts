@@ -13,7 +13,7 @@ export class ApiAmadeusGeocoderClient implements GeocoderClient {
     ) {
         this.getPlaces = this.cache.wrap(
             this.getPlaces.bind(this),
-            (search) => `${this.getPlaces.name}${search}`,
+            (search) => `getPlaces:${search}`,
         );
     }
 
