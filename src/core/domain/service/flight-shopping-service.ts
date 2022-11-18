@@ -5,9 +5,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FlightShoppingService {
-  constructor(
-    private readonly airports: FlightShoppingClient,
-  ) {}
+  constructor(private readonly airports: FlightShoppingClient) {}
 
   getLocation(request: FlightSearchRequest): Promise<Airport[]> {
     return this.airports.getOffers(request);

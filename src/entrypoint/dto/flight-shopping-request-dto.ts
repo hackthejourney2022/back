@@ -1,5 +1,18 @@
-import { IATA_SIZE, MAX_PASSENGERS, MIN_ADULTS, MIN_NON_ADULT_PASSENGERS } from './dto-constants';
-import { IsDateString, IsOptional, IsString, Length, IsInt, Min, Max } from 'class-validator';
+import {
+  IATA_SIZE,
+  MAX_PASSENGERS,
+  MIN_ADULTS,
+  MIN_NON_ADULT_PASSENGERS,
+} from './dto-constants';
+import {
+  IsDateString,
+  IsOptional,
+  IsString,
+  Length,
+  IsInt,
+  Min,
+  Max,
+} from 'class-validator';
 import { FlightSearchRequest } from 'src/core/domain/model';
 
 export class FlightSearchRequestDto implements FlightSearchRequest {

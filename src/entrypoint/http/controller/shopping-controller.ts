@@ -10,6 +10,8 @@ export class ShoppingController {
 
   @Post('/flights')
   public async getFlights(@Body() request: FlightSearchRequestDto) {
-    return this.service.getLocation(plainToInstance(FlightSearchRequest, request));
+    return this.service.getLocation(
+      plainToInstance(FlightSearchRequest, request),
+    );
   }
 }
