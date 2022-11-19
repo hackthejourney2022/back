@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/hackthejourney2022/back/compare/v0.7.0...v0.8.0) (2022-11-19)
+
+
+### Features
+
+* creating flights recommendations ([#10](https://github.com/hackthejourney2022/back/issues/10)) ([77135d4](https://github.com/hackthejourney2022/back/commit/77135d4c731284319fed02df3dafc529b2b53c90))
+
 # [0.7.0](https://github.com/hackthejourney2022/back/compare/v0.6.0...v0.7.0) (2022-11-19)
 
 
