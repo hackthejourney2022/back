@@ -27,13 +27,14 @@ export class RecommendedOfferParser {
         score: CategoryRatedArea,
         volunteering: VolunteeringInstitution[],
         reviews: LocationReview[],
+        description: string,
     ): RecommendedOffer {
         const attractionsDetails = fluentObject(score.categoryScores)
             .map(([k, v]): [keyof AttractionDetails, number] => [k, v.overall])
             .append(['vegetarian', score.categoryScores.restaurant.vegetarian]);
         return {
             departureDate: flight.departureDate,
-            description: airportData.detailedName, // TODO: Usar descrição turística
+            description,
             to: flight.destination,
             destination: airportData.detailedName,
             price: Number(flight.price.total),

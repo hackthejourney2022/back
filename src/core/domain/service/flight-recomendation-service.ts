@@ -1,3 +1,4 @@
+import { LocationDescriptionRepository } from 'src/core/domain/repository/location-description-repository';
 /* eslint-disable no-magic-numbers */
 import { Coordinates } from './../model/coordinates';
 import { ReviewsRepository } from 'src/core/domain/repository/reviews-repository';
@@ -69,6 +70,7 @@ export class FlightRecommendationService {
         private parser: RecommendedOfferParser,
         private volunteeringInstitutionRepository: VolunteeringInstitutionRepository,
         private reviews: ReviewsRepository,
+        private descriptions: LocationDescriptionRepository,
     ) {}
 
     async get(
@@ -116,6 +118,9 @@ export class FlightRecommendationService {
                             x.cityData.geoCode,
                             1,
                         ),
+                    description: await this.descriptions.get(
+                        x.cityData.iataCode,
+                    ),
                     reviews: await this.reviews.get(x.flight.destination),
                 };
                 return result;
@@ -144,6 +149,7 @@ export class FlightRecommendationService {
                     x.score,
                     x.volunteering,
                     x.reviews,
+                    x.description,
                 ),
             )
             .toArray();
