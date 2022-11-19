@@ -1,7 +1,7 @@
-import { Airport } from './airport';
+import { AmadeusLocation } from './amadeus-location';
 import { Place } from './place';
 
 export class PlaceAirports {
     place!: Place;
-    airports!: Airport[];
+    airports!: AmadeusLocation[];
 }

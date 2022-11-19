@@ -1,6 +1,7 @@
+import { SafetyRateResponse } from './../model/safety-rate-response';
 import { PlaceAirports } from './../model/place-airports';
 import { fluentAsync, FluentAsyncIterable } from '@codibre/fluent-iterable';
-import { Airport } from '../model/airport';
+import { AmadeusLocation } from '../model/amadeus-location';
 import {
     AirportsClient,
     GeocoderClient,
@@ -9,7 +10,6 @@ import {
 } from 'src/core/domain/client';
 import { Injectable } from '@nestjs/common';
 import {
-    SafetyRate,
     Coordinates,
     CategoryRatedArea,
     VolunteeringInstitution,
@@ -27,7 +27,7 @@ export class LocationService {
         private readonly volunteeringInstitution: VolunteeringInstitutionRepository,
     ) {}
 
-    getLocation(request: Coordinates): Promise<Airport[]> {
+    getLocation(request: Coordinates): Promise<AmadeusLocation[]> {
         return this.airports.getNearestAirports(request);
     }
 
@@ -46,7 +46,7 @@ export class LocationService {
             .filter((x) => x.airports.length);
     }
 
-    getSafetyRates(request: Coordinates): Promise<SafetyRate[]> {
+    getSafetyRates(request: Coordinates): Promise<SafetyRateResponse[]> {
         return this.safePlace.getSafetyRate(request);
     }
 

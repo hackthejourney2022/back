@@ -1,9 +1,10 @@
 import { Amadeus } from './base-amadeus-client';
 import { Inject, Injectable } from '@nestjs/common';
 import { AirportsClient } from 'src/core/domain/client';
-import { Coordinates, Airport } from 'src/core/domain/model';
+import { Coordinates, AmadeusLocation } from 'src/core/domain/model';
 import { GeneralCache } from 'src/infrastructure/cache/general-cache';
 import { depaginateAmadeus } from './depaginate-amadeus';
+import { Address } from 'src/core/domain/model/address';
 
 @Injectable()
 export class ApiAmadeusAirportsClient implements AirportsClient {
@@ -16,17 +17,46 @@ export class ApiAmadeusAirportsClient implements AirportsClient {
             (req, maxResults) =>
                 `getNearestAirports:${req.latitude}:${req.longitude}:${maxResults}`,
         );
+        this.getAirportByIata = this.cache.wrap(
+            this.getAirportByIata.bind(this),
+            (iata) => `getAirportByIata:${iata}`,
+        );
+        this.getCity = this.cache.wrap(
+            this.getCity.bind(this),
+            (address) => `getCity:${address.countryCode}:${address.cityName}`,
+        );
+    }
+
+    async getCity(address: Address): Promise<AmadeusLocation | undefined> {
+        const result = await this.amadeus.referenceData.locations.get({
+            keyword: address.cityName,
+            countryCode: address.countryCode,
+            subType: 'CITY',
+        });
+        return result?.data?.[0];
     }
 
     getNearestAirports(
         request: Coordinates,
         maxResults: number = Number.POSITIVE_INFINITY,
-    ): Promise<Airport[]> {
+    ): Promise<AmadeusLocation[]> {
         return depaginateAmadeus(
             this.amadeus,
             (x) => this.amadeus.referenceData.locations.airports.get(x),
             request,
             maxResults,
         ).toArray();
+    }
+
+    async getAirportByIata(iata: string): Promise<AmadeusLocation | undefined> {
+        // const result = await this.amadeus.client.get(
+        //     `/v1/reference-data/locations/A${iata}`,
+        // );
+        // return result?.data;
+        const result = await this.amadeus.referenceData.locations.get({
+            keyword: iata,
+            subType: 'AIRPORT,CITY',
+        });
+        return result?.data?.[0];
     }
 }

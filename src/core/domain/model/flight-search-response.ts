@@ -1,3 +1,5 @@
+import { Price } from './price';
+
 export class FlightSearchResponse {
     type!: string;
     id!: string;
@@ -18,7 +20,7 @@ export class TravelerPricing {
     travelerId!: string;
     fareOption!: string;
     travelerType!: string;
-    price!: Price2;
+    price!: PriceDetailed;
     fareDetailsBySegment!: FareDetailsBySegment[];
 }
 
@@ -34,7 +36,7 @@ export class IncludedCheckedBags {
     quantity!: number;
 }
 
-export class Price2 {
+export class PriceDetailed {
     currency!: string;
     total!: string;
     base!: string;
@@ -43,14 +45,6 @@ export class Price2 {
 export class PricingOptions {
     fareType!: string[];
     includedCheckedBagsOnly!: boolean;
-}
-
-export class Price {
-    currency!: string;
-    total!: string;
-    base!: string;
-    fees!: Fee[];
-    grandTotal!: string;
 }
 
 export class Fee {

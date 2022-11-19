@@ -6,6 +6,7 @@ import {
     CheapFlightDate,
 } from './models';
 export interface Amadeus {
+    client: Client;
     next(nextToken: any): Promise<any>;
     version: string;
     referenceData: ReferenceData;
@@ -135,7 +136,11 @@ export interface ReferenceData {
 }
 
 export interface Locations extends AmadeusRequests<AmadeusLocation[]> {
-    airports: AmadeusRequests<AmadeusLocation[]>;
+    airports: AmadeusRequests<
+        AmadeusLocation[],
+        any,
+        AmadeusLocation | undefined
+    >;
     cities: AmadeusRequests<AmadeusLocation[]>;
     hotel: AmadeusRequests<AmadeusLocation[]>;
     hotels: Hotels;
@@ -156,7 +161,7 @@ export interface ByCity {
     client: Client;
 }
 
-export interface Client {
+export interface Client extends AmadeusRequests {
     clientId: string;
     clientSecret: string;
     logger: AmadeusRequests;
