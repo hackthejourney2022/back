@@ -1,3 +1,10 @@
+# [0.9.0](https://github.com/hackthejourney2022/back/compare/v0.8.0...v0.9.0) (2022-11-19)
+
+
+### Features
+
+* Include Mock of Volunteering Intitutions ([#11](https://github.com/hackthejourney2022/back/issues/11)) ([69aa50b](https://github.com/hackthejourney2022/back/commit/69aa50b220923941810b62f63524f88c51214a75))
+
 # [0.8.0](https://github.com/hackthejourney2022/back/compare/v0.7.0...v0.8.0) (2022-11-19)
 
 
