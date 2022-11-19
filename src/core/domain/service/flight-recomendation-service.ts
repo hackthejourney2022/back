@@ -155,6 +155,7 @@ export class FlightRecommendationService {
                     x.description,
                 ),
             )
+            .take(3)
             .toArray();
 
         return { offers };
