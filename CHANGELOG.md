@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/hackthejourney2022/back/compare/v0.6.0...v0.7.0) (2022-11-19)
+
+
+### Features
+
+* implementing flight destinations amadeus api access ([#9](https://github.com/hackthejourney2022/back/issues/9)) ([f465720](https://github.com/hackthejourney2022/back/commit/f465720479d152220c306b50c3d24b5ff04ff856))
+
 # [0.6.0](https://github.com/hackthejourney2022/back/compare/v0.5.0...v0.6.0) (2022-11-19)
 
 
