@@ -3,11 +3,11 @@ import { Coordinates } from 'src/core/domain/model';
 
 @Injectable()
 export class BaseSampleValidator {
-  validateSampleId(sampleId: string): boolean {
-    return !!sampleId;
-  }
+    validateSampleId(sampleId: string): boolean {
+        return !!sampleId;
+    }
 
-  async validateParams(_params: Coordinates): Promise<void> {
-    // no validation
-  }
+    async validateParams(_params: Coordinates): Promise<void> {
+        // no validation
+    }
 }

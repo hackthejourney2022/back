@@ -8,3 +8,4 @@ export * from './flight-search-response';
 export * from './place-airports';
 export * from './safety-rate';
 export * from './travel-class';
+export * from './volunteering-institution';
