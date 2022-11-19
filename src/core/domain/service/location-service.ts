@@ -9,8 +9,12 @@ import {
     LocationScoreClient,
 } from 'src/core/domain/client';
 import { Injectable } from '@nestjs/common';
-import { Coordinates } from '../model/coordinates';
-import { CategoryRatedArea } from '../model';
+import {
+    Coordinates,
+    CategoryRatedArea,
+    VolunteeringInstitution,
+} from '../model';
+import { VolunteeringInstitutionRepository } from 'src/core/domain/repository/volunteering-institution-repository';
 
 const MAX_AIRPORTS_PER_PLACE = 3;
 @Injectable()
@@ -20,6 +24,7 @@ export class LocationService {
         private readonly geocoder: GeocoderClient,
         private readonly safePlace: SafePlaceClient,
         private readonly locationScore: LocationScoreClient,
+        private readonly volunteeringInstitution: VolunteeringInstitutionRepository,
     ) {}
 
     getLocation(request: Coordinates): Promise<AmadeusLocation[]> {
@@ -47,5 +52,11 @@ export class LocationService {
 
     getCategoryRatedAreas(request: Coordinates): Promise<CategoryRatedArea[]> {
         return this.locationScore.getCategoryRatedAreas(request);
+    }
+
+    getVolunteeringInstitutions(
+        request: Coordinates,
+    ): Promise<VolunteeringInstitution[]> {
+        return this.volunteeringInstitution.get(request);
     }
 }

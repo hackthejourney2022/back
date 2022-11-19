@@ -7,6 +7,7 @@ import {
 import { LocationService } from 'src/core/domain/service';
 import { Test } from '@nestjs/testing';
 import { Coordinates } from 'src/core/domain/model';
+import { VolunteeringInstitutionRepository } from 'src/core/domain/repository/volunteering-institution-repository';
 
 const proto = LocationService.prototype;
 
@@ -16,6 +17,7 @@ describe(LocationService.name, () => {
     let geocoder: GeocoderClient;
     let safePlace: SafePlaceClient;
     let _locationScore: LocationScoreClient;
+    let _volunteeringInstitution: VolunteeringInstitutionRepository;
 
     beforeEach(async () => {
         const moduleRef = await Test.createTestingModule({
@@ -36,6 +38,10 @@ describe(LocationService.name, () => {
                 {
                     provide: LocationScoreClient,
                     useValue: (_locationScore = {} as any),
+                },
+                {
+                    provide: VolunteeringInstitutionRepository,
+                    useValue: (_volunteeringInstitution = {} as any),
                 },
             ],
         }).compile();

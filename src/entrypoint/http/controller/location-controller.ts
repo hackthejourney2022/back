@@ -34,4 +34,11 @@ export class LocationController {
             plainToInstance(Coordinates, request),
         );
     }
+
+    @Get('/volunteering-institutions')
+    public async getVolunteeringInstitutions(@Query() request: CoordinatesDto) {
+        return this.service.getVolunteeringInstitutions(
+            plainToInstance(Coordinates, request),
+        );
+    }
 }

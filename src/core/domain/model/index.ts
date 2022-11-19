@@ -12,3 +12,4 @@ export * from './recommendation-response';
 export * from './safety-rate';
 export * from './safety-rate-response';
 export * from './travel-class';
+export * from './volunteering-institution';

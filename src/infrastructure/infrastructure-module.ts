@@ -32,6 +32,8 @@ import { AppLogger } from 'src/core/domain/utils';
 import { logger } from './logger';
 import { ApiAmadeusGeocoderClient } from './client/amadeus/api-amadeus-geocoder-client';
 import { ApiAmadeusLocationScoreClient } from 'src/infrastructure/client/amadeus/api-amadeus-location-score-client';
+import { VolunteeringInstitutionRepository } from 'src/core/domain/repository/volunteering-institution-repository';
+import { MemoryVolunteeringInstitutionRepository } from 'src/infrastructure/repository/memory-volunteering-institution-repository';
 
 @Module({
     imports: [
@@ -67,6 +69,10 @@ import { ApiAmadeusLocationScoreClient } from 'src/infrastructure/client/amadeus
         {
             provide: SampleRepository,
             useClass: RedisSampleRepository,
+        },
+        {
+            provide: VolunteeringInstitutionRepository,
+            useClass: MemoryVolunteeringInstitutionRepository,
         },
         // Configs
         {
@@ -123,6 +129,7 @@ import { ApiAmadeusLocationScoreClient } from 'src/infrastructure/client/amadeus
         LocationScoreClient,
         SafePlaceClient,
         SampleRepository,
+        VolunteeringInstitutionRepository,
     ],
 })
 export class InfrastructureModule {}
