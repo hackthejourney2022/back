@@ -18,7 +18,7 @@
             ],
             "cwd": "${workspaceRoot}",
             "envFile": "${workspaceFolder}/.env",
-            "runtimeExecutable": "${env:NVM_HOME}/nvm-exec",
+            "runtimeExecutable": "${env:HOME}/.nvm/nvm-exec",
             "runtimeArgs": ["node", "-r", "tsconfig-paths/register", "-r", "ts-node/register"],
             "args": ["${workspaceRoot}/src/index.ts"],
             "outputCapture": "std",
