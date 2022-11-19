@@ -1,3 +1,5 @@
+import { MemoryLocationDescriptionRepository } from './repository/memory-location-description-repository';
+import { LocationDescriptionRepository } from 'src/core/domain/repository/location-description-repository';
 import { MemoryReviewsRepository } from './repository/memory-reviews-repository';
 import { ReviewsRepository } from 'src/core/domain/repository/reviews-repository';
 import { ApiAmadeusSafePlaceClient } from './client/amadeus/api-amadeus-safe-place-client';
@@ -80,6 +82,10 @@ import { MemoryVolunteeringInstitutionRepository } from 'src/infrastructure/repo
             provide: VolunteeringInstitutionRepository,
             useClass: MemoryVolunteeringInstitutionRepository,
         },
+        {
+            provide: LocationDescriptionRepository,
+            useClass: MemoryLocationDescriptionRepository,
+        },
         // Configs
         {
             provide: RedisConfig,
@@ -132,6 +138,7 @@ import { MemoryVolunteeringInstitutionRepository } from 'src/infrastructure/repo
         AppLogger,
         FlightShoppingClient,
         GeocoderClient,
+        LocationDescriptionRepository,
         LocationScoreClient,
         ReviewsRepository,
         SafePlaceClient,
