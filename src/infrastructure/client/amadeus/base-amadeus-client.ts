@@ -101,7 +101,7 @@ export interface Booking {
 }
 
 export interface Shopping {
-    flightDestinations: AmadeusRequests;
+    flightDestinations: AmadeusRequests<any[]>;
     flightOffers: FlightOffers;
     flightOffersSearch: AmadeusRequests<FlightSearchResponse[]>;
     flightDates: AmadeusRequests<CheapFlightDate[]>;
