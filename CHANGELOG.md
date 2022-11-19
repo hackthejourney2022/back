@@ -1,3 +1,10 @@
+## [0.9.3](https://github.com/hackthejourney2022/back/compare/v0.9.2...v0.9.3) (2022-11-19)
+
+
+### Bug Fixes
+
+* adding touristic description repository ([#16](https://github.com/hackthejourney2022/back/issues/16)) ([7a26263](https://github.com/hackthejourney2022/back/commit/7a262631c7ac1b793371d70105129c93e8492f0a))
+
 ## [0.9.2](https://github.com/hackthejourney2022/back/compare/v0.9.1...v0.9.2) (2022-11-19)
 
 
