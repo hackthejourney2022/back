@@ -1,15 +1,19 @@
+import { AppLogger } from 'src/core/domain/utils';
 import { Amadeus } from './base-amadeus-client';
 import { Inject, Injectable } from '@nestjs/common';
-import { Coordinates, SafetyRate } from 'src/core/domain/model';
+import { Coordinates } from 'src/core/domain/model';
 import { GeneralCache } from 'src/infrastructure/cache/general-cache';
 import { depaginateAmadeus } from './depaginate-amadeus';
 import { SafePlaceClient } from 'src/core/domain/client/safe-place-client';
+import { amadeusFallback } from './amadeus-fallback';
+import { SafetyRateResponse } from 'src/core/domain/model/safety-rate-response';
 
 @Injectable()
 export class ApiAmadeusSafePlaceClient implements SafePlaceClient {
     constructor(
         @Inject('AMADEUS') private amadeus: Amadeus,
         private cache: GeneralCache,
+        private logger: AppLogger,
     ) {
         this.getSafetyRate = this.cache.wrap(
             this.getSafetyRate.bind(this),
@@ -21,12 +25,17 @@ export class ApiAmadeusSafePlaceClient implements SafePlaceClient {
     getSafetyRate(
         request: Coordinates,
         maxResults?: number | undefined,
-    ): Promise<SafetyRate[]> {
-        return depaginateAmadeus(
-            this.amadeus,
-            (x) => this.amadeus.safety.safetyRatedLocations.get(x),
-            request,
-            maxResults,
-        ).toArray();
+    ): Promise<SafetyRateResponse[]> {
+        return amadeusFallback(
+            () =>
+                depaginateAmadeus(
+                    this.amadeus,
+                    (x) => this.amadeus.safety.safetyRatedLocations.get(x),
+                    request,
+                    maxResults,
+                ).toArray(),
+            this.logger,
+            undefined,
+        );
     }
 }

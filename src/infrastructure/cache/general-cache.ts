@@ -5,7 +5,7 @@ import { RememberedRedis } from '@remembered/redis';
 
 @Injectable()
 export class GeneralCache extends RememberedRedis {
-  constructor(config: CacheConfig, redis: RedisSample) {
-    super(config, redis);
-  }
+    constructor(config: CacheConfig, redis: RedisSample) {
+        super(config, redis);
+    }
 }

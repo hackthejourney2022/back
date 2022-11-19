@@ -10,76 +10,76 @@ const loggerPrefix = 'Sample';
 
 @Injectable()
 export class RedisSampleRepository implements SampleRepository {
-  constructor(private redis: RedisSample) {}
-  async getAll(): Promise<any[]> {
-    try {
-      const key = `${keyPrefix}:*`;
-      const keys = await this.redis.keys(key);
-      if ((keys || []).length <= 0) return [];
+    constructor(private redis: RedisSample) {}
+    async getAll(): Promise<any[]> {
+        try {
+            const key = `${keyPrefix}:*`;
+            const keys = await this.redis.keys(key);
+            if ((keys || []).length <= 0) return [];
 
-      const values = await this.redis.mget(keys);
-      if ((values || []).length <= 0) return [];
+            const values = await this.redis.mget(keys);
+            if ((values || []).length <= 0) return [];
 
-      const samples: Array<any> = fluent(values)
-        .filter()
-        .map((value) => JSON.parse(value))
-        .toArray();
-      return samples;
-    } catch (err) {
-      throw new DatabaseException(
-        err,
-        `Error in recovery ${loggerPrefix} collection.`,
-      );
+            const samples: Array<any> = fluent(values)
+                .filter()
+                .map((value) => JSON.parse(value))
+                .toArray();
+            return samples;
+        } catch (err) {
+            throw new DatabaseException(
+                err,
+                `Error in recovery ${loggerPrefix} collection.`,
+            );
+        }
     }
-  }
 
-  async getById(sampleId: string): Promise<any | null> {
-    try {
-      const key = `${keyPrefix}:${sampleId}`;
-      const resultText = await this.redis.get(key);
-      if (!resultText) return null;
+    async getById(sampleId: string): Promise<any | null> {
+        try {
+            const key = `${keyPrefix}:${sampleId}`;
+            const resultText = await this.redis.get(key);
+            if (!resultText) return null;
 
-      return JSON.parse(resultText);
-    } catch (err) {
-      throw new DatabaseException(
-        err,
-        `Error in recovery ${loggerPrefix} by id.`,
-      );
+            return JSON.parse(resultText);
+        } catch (err) {
+            throw new DatabaseException(
+                err,
+                `Error in recovery ${loggerPrefix} by id.`,
+            );
+        }
     }
-  }
 
-  async create(sample: any): Promise<string> {
-    try {
-      const ttl = 600;
-      const id = uuidv4();
-      const key = `${keyPrefix}:${id}`;
-      const command = this.redis.multi().set(
-        key,
-        JSON.stringify({
-          id,
-          name: sample.name,
-        }),
-      );
-      command.expire(key, ttl);
-      await command.exec();
-      return id;
-    } catch (err) {
-      throw new DatabaseException(
-        err,
-        `Error in save ${loggerPrefix} in redis.`,
-      );
+    async create(sample: any): Promise<string> {
+        try {
+            const ttl = 600;
+            const id = uuidv4();
+            const key = `${keyPrefix}:${id}`;
+            const command = this.redis.multi().set(
+                key,
+                JSON.stringify({
+                    id,
+                    name: sample.name,
+                }),
+            );
+            command.expire(key, ttl);
+            await command.exec();
+            return id;
+        } catch (err) {
+            throw new DatabaseException(
+                err,
+                `Error in save ${loggerPrefix} in redis.`,
+            );
+        }
     }
-  }
 
-  async delete(sampleId: number): Promise<void> {
-    try {
-      const key = `${keyPrefix}:${sampleId}`;
-      await this.redis.del(key);
-    } catch (err) {
-      throw new DatabaseException(
-        err,
-        `Error deliting ${loggerPrefix} in redis`,
-      );
+    async delete(sampleId: number): Promise<void> {
+        try {
+            const key = `${keyPrefix}:${sampleId}`;
+            await this.redis.del(key);
+        } catch (err) {
+            throw new DatabaseException(
+                err,
+                `Error deliting ${loggerPrefix} in redis`,
+            );
+        }
     }
-  }
 }

@@ -7,29 +7,31 @@ import { plainToInstance } from 'class-transformer';
 
 @Controller('/location')
 export class LocationController {
-  constructor(private readonly service: LocationService) {}
+    constructor(private readonly service: LocationService) {}
 
-  @Get('/coordinates')
-  public async getByCoordinates(@Query() request: CoordinatesDto) {
-    return this.service.getLocation(plainToInstance(Coordinates, request));
-  }
+    @Get('/coordinates')
+    public async getByCoordinates(@Query() request: CoordinatesDto) {
+        return this.service.getLocation(plainToInstance(Coordinates, request));
+    }
 
-  @Get('/text')
-  public async getByText(@Query() request: PlaceQueryDto) {
-    const result = this.service.getLocationByText(request.search);
+    @Get('/text')
+    public async getByText(@Query() request: PlaceQueryDto) {
+        const result = this.service.getLocationByText(request.search);
 
-    return result.toArray();
-  }
+        return result.toArray();
+    }
 
-  @Get('/safety-rates')
-  public async getSafetyRates(@Query() request: CoordinatesDto) {
-    return this.service.getSafetyRates(plainToInstance(Coordinates, request));
-  }
+    @Get('/safety-rates')
+    public async getSafetyRates(@Query() request: CoordinatesDto) {
+        return this.service.getSafetyRates(
+            plainToInstance(Coordinates, request),
+        );
+    }
 
-  @Get('/category-rated-areas')
-  public async getCategoryRatedAreas(@Query() request: CoordinatesDto) {
-    return this.service.getCategoryRatedAreas(
-      plainToInstance(Coordinates, request),
-    );
-  }
+    @Get('/category-rated-areas')
+    public async getCategoryRatedAreas(@Query() request: CoordinatesDto) {
+        return this.service.getCategoryRatedAreas(
+            plainToInstance(Coordinates, request),
+        );
+    }
 }
