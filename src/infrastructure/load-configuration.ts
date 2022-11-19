@@ -47,7 +47,7 @@ const config: Config = {
         logRequests: false,
     },
     [ConfigTypes.cache]: {
-        ttl: ms('5m'),
+        ttl: 0,
         redisTtl: ms('24h') / REDIS_SCALE,
         redisPrefix: 'hack-the-journey-2022-cache',
     },

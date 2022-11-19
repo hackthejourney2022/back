@@ -1,3 +1,4 @@
+import { AppLogger } from 'src/core/domain/utils';
 import { Amadeus } from './base-amadeus-client';
 import { Inject, Injectable } from '@nestjs/common';
 import { AirportsClient } from 'src/core/domain/client';
@@ -11,6 +12,7 @@ export class ApiAmadeusAirportsClient implements AirportsClient {
     constructor(
         @Inject('AMADEUS') private amadeus: Amadeus,
         private cache: GeneralCache,
+        private logger: AppLogger,
     ) {
         this.getNearestAirports = this.cache.wrap(
             this.getNearestAirports.bind(this),
@@ -31,11 +33,13 @@ export class ApiAmadeusAirportsClient implements AirportsClient {
     }
 
     async getCity(address: Address): Promise<AmadeusLocation | undefined> {
+        this.logger.info(`Requesting cities for ${JSON.stringify(address)}`);
         const result = await this.amadeus.referenceData.locations.get({
             keyword: address.cityName,
             countryCode: address.countryCode,
             subType: 'CITY',
         });
+        this.logger.info(`Finished request for ${JSON.stringify(address)}`);
         return result?.data?.[0];
     }
 

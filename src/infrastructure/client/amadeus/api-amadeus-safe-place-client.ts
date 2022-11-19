@@ -24,11 +24,14 @@ export class ApiAmadeusSafePlaceClient implements SafePlaceClient {
         );
     }
 
-    getSafetyRate(
+    async getSafetyRate(
         request: Coordinates,
         maxResults?: number | undefined,
     ): Promise<SafetyRateResponse[]> {
-        return amadeusFallback(
+        this.logger.info(
+            `Requesting safety rate for ${JSON.stringify(request)}`,
+        );
+        const result = await amadeusFallback(
             () =>
                 depaginateAmadeus(
                     this.amadeus,
@@ -38,6 +41,9 @@ export class ApiAmadeusSafePlaceClient implements SafePlaceClient {
                 ).toArray(),
             this.logger,
             () => [safePlaceFallback[randomInt(0, safePlaceFallback.length)]],
+            'getSafetyRate',
         );
+        this.logger.info(`Finished safety rate for ${JSON.stringify(request)}`);
+        return result;
     }
 }

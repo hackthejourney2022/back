@@ -24,11 +24,14 @@ export class ApiAmadeusLocationScoreClient implements LocationScoreClient {
         );
     }
 
-    getCategoryRatedAreas(
+    async getCategoryRatedAreas(
         request: Coordinates,
         maxResults?: number | undefined,
     ): Promise<CategoryRatedArea[]> {
-        return amadeusFallback(
+        this.logger.info(
+            `Requesting category rated for ${JSON.stringify(request)}`,
+        );
+        const result = await amadeusFallback(
             () =>
                 depaginateAmadeus(
                     this.amadeus,
@@ -45,6 +48,11 @@ export class ApiAmadeusLocationScoreClient implements LocationScoreClient {
                     randomInt(0, locationScoreFallback.length)
                 ],
             ],
+            'getCategoryRatedAreas',
         );
+        this.logger.info(
+            `Finished category rated for ${JSON.stringify(request)}`,
+        );
+        return result;
     }
 }

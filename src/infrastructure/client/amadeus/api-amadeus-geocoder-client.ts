@@ -1,3 +1,4 @@
+import { AppLogger } from 'src/core/domain/utils';
 import { Amadeus } from './base-amadeus-client';
 import { Inject, Injectable } from '@nestjs/common';
 import { GeocoderClient } from 'src/core/domain/client';
@@ -10,6 +11,7 @@ export class ApiAmadeusGeocoderClient implements GeocoderClient {
     constructor(
         @Inject('AMADEUS') private amadeus: Amadeus,
         private cache: GeneralCache,
+        private logger: AppLogger,
     ) {
         this.getPlaces = this.cache.wrap(
             this.getPlaces.bind(this),
@@ -18,8 +20,9 @@ export class ApiAmadeusGeocoderClient implements GeocoderClient {
         );
     }
 
-    getPlaces(search: string): Promise<Place[]> {
-        return depaginateAmadeus(
+    async getPlaces(search: string): Promise<Place[]> {
+        this.logger.info(`Requesting cities for ${JSON.stringify(search)}`);
+        const result = await depaginateAmadeus(
             this.amadeus,
             (x) => this.amadeus.referenceData.locations.get(x),
             {
@@ -34,5 +37,8 @@ export class ApiAmadeusGeocoderClient implements GeocoderClient {
                 }),
             )
             .toArray();
+        this.logger.info(`Requesting places for ${JSON.stringify(search)}`);
+
+        return result;
     }
 }
