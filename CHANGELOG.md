@@ -1,3 +1,10 @@
+# [0.10.0](https://github.com/hackthejourney2022/back/compare/v0.9.3...v0.10.0) (2022-11-19)
+
+
+### Features
+
+* guaranteeing sponsor institution to be shown ([#17](https://github.com/hackthejourney2022/back/issues/17)) ([7f85c73](https://github.com/hackthejourney2022/back/commit/7f85c7337c75b50d586b0ec1f0a4023f2ac24fb0))
+
 ## [0.9.3](https://github.com/hackthejourney2022/back/compare/v0.9.2...v0.9.3) (2022-11-19)
 
 
