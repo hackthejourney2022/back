@@ -6,7 +6,9 @@ import { LocationDescriptionRepository } from 'src/core/domain/repository/locati
 import { locationDescriptionMock } from './location-description-mock';
 
 @Injectable()
-export class MemoryLocationDescriptionRepository implements LocationDescriptionRepository {
+export class MemoryLocationDescriptionRepository
+    implements LocationDescriptionRepository
+{
     constructor(private cache: GeneralCache, private logger: AppLogger) {
         this.get = this.cache.wrap(
             this.get.bind(this),

@@ -118,7 +118,9 @@ export class FlightRecommendationService {
                             x.cityData.geoCode,
                             1,
                         ),
-                    description: await this.descriptions.get(x.cityData.iataCode),
+                    description: await this.descriptions.get(
+                        x.cityData.iataCode,
+                    ),
                     reviews: await this.reviews.get(x.flight.destination),
                 };
                 return result;
