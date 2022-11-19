@@ -1,3 +1,5 @@
+import { MemoryReviewsRepository } from './repository/memory-reviews-repository';
+import { ReviewsRepository } from 'src/core/domain/repository/reviews-repository';
 import { ApiAmadeusSafePlaceClient } from './client/amadeus/api-amadeus-safe-place-client';
 import { SafePlaceClient } from 'src/core/domain/client/safe-place-client';
 import {
@@ -67,6 +69,10 @@ import { MemoryVolunteeringInstitutionRepository } from 'src/infrastructure/repo
         },
         // Repositories
         {
+            provide: ReviewsRepository,
+            useClass: MemoryReviewsRepository,
+        },
+        {
             provide: SampleRepository,
             useClass: RedisSampleRepository,
         },
@@ -127,6 +133,7 @@ import { MemoryVolunteeringInstitutionRepository } from 'src/infrastructure/repo
         FlightShoppingClient,
         GeocoderClient,
         LocationScoreClient,
+        ReviewsRepository,
         SafePlaceClient,
         SampleRepository,
         VolunteeringInstitutionRepository,

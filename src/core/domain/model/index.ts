@@ -6,6 +6,7 @@ export * from './flight-destinations';
 export * from './flight-destinations-request';
 export * from './flight-search-request';
 export * from './flight-search-response';
+export * from './location-review';
 export * from './place-airports';
 export * from './price';
 export * from './recommendation-response';

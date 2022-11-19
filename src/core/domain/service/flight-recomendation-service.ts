@@ -1,3 +1,4 @@
+import { ReviewsRepository } from 'src/core/domain/repository/reviews-repository';
 import { RecommendedOfferParser } from '../parser/recommended-offer-parser';
 import { RecommendationResponse } from './../model/recommendation-response';
 import { desc, fluent, fluentObject } from '@codibre/fluent-iterable';
@@ -22,6 +23,7 @@ export class FlightRecommendationService {
         private locationScore: LocationScoreClient,
         private parser: RecommendedOfferParser,
         private volunteeringInstitutionRepository: VolunteeringInstitutionRepository,
+        private reviews: ReviewsRepository,
     ) {}
 
     async get(
@@ -68,6 +70,7 @@ export class FlightRecommendationService {
                             x.cityData.geoCode,
                             1,
                         ),
+                    reviews: await this.reviews.get(x.flight.destination),
                 };
             })
             .filter('safePlace')
@@ -81,7 +84,8 @@ export class FlightRecommendationService {
                         fluentObject(x.score.categoryScores)
                             .map('1')
                             .map('overall')
-                            .sum((overall) => overall ?? 0),
+                            .sum((overall) => overall ?? 0) +
+                        fluent(x.reviews).map('score').sum(),
                 };
             })
             .sortBy(desc('overAllScore'))
@@ -92,6 +96,7 @@ export class FlightRecommendationService {
                     x.safePlace,
                     x.score,
                     x.volunteering,
+                    x.reviews,
                 ),
             )
             .toArray();
