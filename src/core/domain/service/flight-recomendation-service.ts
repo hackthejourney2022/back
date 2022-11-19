@@ -9,6 +9,7 @@ import {
     AirportsClient,
 } from 'src/core/domain/client';
 import { Injectable } from '@nestjs/common';
+import { VolunteeringInstitutionRepository } from '../repository/volunteering-institution-repository';
 
 const MAX_IATAS = 100;
 
@@ -20,6 +21,7 @@ export class FlightRecommendationService {
         private safePlace: SafePlaceClient,
         private locationScore: LocationScoreClient,
         private parser: RecommendedOfferParser,
+        private volunteeringInstitutionRepository: VolunteeringInstitutionRepository,
     ) {}
 
     async get(
@@ -61,10 +63,16 @@ export class FlightRecommendationService {
                             1,
                         )
                     )?.[0],
+                    volunteering:
+                        await this.volunteeringInstitutionRepository.get(
+                            x.cityData.geoCode,
+                            1,
+                        ),
                 };
             })
             .filter('safePlace')
             .filter('score')
+            .filter('volunteering')
             .map((x) => {
                 return {
                     ...x,
@@ -83,15 +91,11 @@ export class FlightRecommendationService {
                     x.flight,
                     x.safePlace,
                     x.score,
+                    x.volunteering,
                 ),
             )
             .toArray();
 
-        return {
-            offers,
-            dictionaries: {
-                volunteering: {},
-            },
-        };
+        return { offers };
     }
 }

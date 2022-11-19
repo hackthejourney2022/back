@@ -6,6 +6,7 @@ import {
     FlightTrip,
     SafetyRateResponse,
     CategoryRatedArea,
+    VolunteeringInstitution,
 } from '../model';
 import {
     AttractionDetails,
@@ -23,6 +24,7 @@ export class RecommendedOfferParser {
         flight: FlightTrip,
         safePlace: SafetyRateResponse,
         score: CategoryRatedArea,
+        volunteering: VolunteeringInstitution[],
     ): RecommendedOffer {
         const attractionsDetails = fluentObject(score.categoryScores)
             .map(([k, v]): [keyof AttractionDetails, number] => [k, v.overall])
@@ -38,8 +40,12 @@ export class RecommendedOfferParser {
                 attractions: this.getScore(attractionsDetails),
                 security: this.getScore(fluentObject(safePlace.safetyScores)),
                 volunteering: {
-                    overallScore: 0,
-                    details: [],
+                    overallScore:
+                        volunteering.length > 0
+                            ? volunteering.reduce((a, b) => a + b.score, 0) /
+                              volunteering.length
+                            : 0,
+                    details: volunteering,
                 },
                 reviews: {
                     overallScore: 0,

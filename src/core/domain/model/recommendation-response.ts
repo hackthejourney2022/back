@@ -1,6 +1,7 @@
+import { VolunteeringInstitution } from './volunteering-institution';
+
 export class RecommendationResponse {
     offers!: RecommendedOffer[];
-    dictionaries!: Disctionaries;
 }
 
 export class Disctionaries {
@@ -24,7 +25,7 @@ export class RecommendedOffer {
 export class Scores {
     security!: ScoreOverview<SecurityDetails>;
     attractions!: ScoreOverview<AttractionDetails>;
-    volunteering!: ScoreOverview<string[]>;
+    volunteering!: ScoreOverview<VolunteeringInstitution[]>;
     reviews!: ScoreOverview<ReviewDetail[]>;
 }
 
