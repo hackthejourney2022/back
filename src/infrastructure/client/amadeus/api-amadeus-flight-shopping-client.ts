@@ -56,17 +56,24 @@ export class ApiAmadeusFlightShoppingClient implements FlightShoppingClient {
     async getFlightDestinations(
         request: FlightDestinationsRequest,
     ): Promise<any> {
-        return amadeusFallback(
-            () =>
-                this.cache.get(
-                    `getFlightDestinations:${request.origin}:${request.departureDate}:${request.duration}:${request.oneWay}:${request.maxPrice}`,
-                    async () =>
-                        this.amadeus.shopping.flightDestinations.get(request),
-                    undefined,
-                    DEFAULT_AVAILABILITY_CACHE_TTL,
-                ),
-            this.logger,
-            () => flightDestinationsFallback,
+        this.logger.info(
+            `Requesting flights destinations for ${JSON.stringify(request)}`,
         );
+        const result = this.cache.get(
+            `getFlightDestinations:${request.origin}:${request.departureDate}:${request.duration}:${request.oneWay}:${request.maxPrice}`,
+            () =>
+                amadeusFallback(
+                    () => this.amadeus.shopping.flightDestinations.get(request),
+                    this.logger,
+                    () => flightDestinationsFallback,
+                    'getFlightDestinations',
+                ),
+            undefined,
+            DEFAULT_AVAILABILITY_CACHE_TTL,
+        );
+        this.logger.info(
+            `Finished flights destinations for ${JSON.stringify(request)}`,
+        );
+        return result;
     }
 }
