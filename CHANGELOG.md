@@ -1,3 +1,10 @@
+## [0.9.1](https://github.com/hackthejourney2022/back/compare/v0.9.0...v0.9.1) (2022-11-19)
+
+
+### Bug Fixes
+
+* fixing performance issue ([#14](https://github.com/hackthejourney2022/back/issues/14)) ([688e5f6](https://github.com/hackthejourney2022/back/commit/688e5f6bd846ac0ed1f37ae5c0494c2de4108444))
+
 # [0.9.0](https://github.com/hackthejourney2022/back/compare/v0.8.0...v0.9.0) (2022-11-19)
 
 
