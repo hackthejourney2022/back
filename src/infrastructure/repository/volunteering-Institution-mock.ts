@@ -5,6 +5,14 @@ import {
 
 export const volunteeringInstitutions: VolunteeringInstitution[] = [
     {
+        name: 'Instituto Dia Feliz',
+        description:
+            'Nasceu assim, em 2011, o projeto não governamental e sem fins lucrativos, DIA FELIZ. Levando alegria, brinquedos e alimentação básica para aquelas crianças família da cidade de São José dos Basílios, no Maranhão',
+        link: 'https://www.institutodiafeliz.org/',
+        score: 4.999,
+        category: VolunteeringCategory.ASSISTENCIA_SOCIAL,
+    },
+    {
         name: 'Cruz Vermelha',
         description:
             'A Cruz Vermelha é a principal instituição de ajuda humanitária do mundo. No Brasil está presente em 21 estados. Seus voluntários sempre dizem que, para minorar o sofrimento da população, sempre são os primeiros a chegar e os últimos a sair. Até hoje, mais de seis anos após as chuvas que provocaram deslizamentos na serra do Rio de Janeiro, ainda há pessoas da região que recebem apoio psicossocial.',
