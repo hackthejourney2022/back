@@ -1,5 +1,6 @@
+import { LocationReview } from 'src/core/domain/model/location-review';
 import { ScoreOverview } from './../model/recommendation-response';
-import { FluentIterable, fluentObject } from '@codibre/fluent-iterable';
+import { fluent, FluentIterable, fluentObject } from '@codibre/fluent-iterable';
 import { Injectable } from '@nestjs/common';
 import {
     AmadeusLocation,
@@ -25,6 +26,7 @@ export class RecommendedOfferParser {
         safePlace: SafetyRateResponse,
         score: CategoryRatedArea,
         volunteering: VolunteeringInstitution[],
+        reviews: LocationReview[],
     ): RecommendedOffer {
         const attractionsDetails = fluentObject(score.categoryScores)
             .map(([k, v]): [keyof AttractionDetails, number] => [k, v.overall])
@@ -48,8 +50,10 @@ export class RecommendedOfferParser {
                     details: volunteering,
                 },
                 reviews: {
-                    overallScore: 0,
-                    details: [],
+                    overallScore: this.getOverAllScore(
+                        fluent(reviews).map('score'),
+                    ),
+                    details: reviews,
                 },
             },
         };
@@ -60,16 +64,21 @@ export class RecommendedOfferParser {
     ): ScoreOverview<T> {
         const details = {} as Record<keyof T, number>;
         const overallScore =
-            values
-                .execute(([k, v]) => {
-                    details[k] = v;
-                })
-                .map('1')
-                .avg((x) => x || 0) / SCALE_CONVERSION;
+            this.getOverAllScore(
+                values
+                    .execute(([k, v]) => {
+                        details[k] = v * SCALE_CONVERSION;
+                    })
+                    .map('1'),
+            ) * SCALE_CONVERSION;
 
         return {
             overallScore,
             details: details as T,
         };
+    }
+
+    private getOverAllScore(values: FluentIterable<number>) {
+        return values.avg((x) => x || 0);
     }
 }

@@ -28,8 +28,11 @@ export class RequestLoggerMiddleware implements NestMiddleware {
                     userAgent: req.headers['user-agent'] || '',
                 });
             } catch (err) {
-                this.logger.addMeta(
-                    'warnError',
+                // this.logger.addMeta(
+                //     'warnError',
+                //     (err as Error).stack ?? (err as Error).message,
+                // );
+                this.logger.warn(
                     (err as Error).stack ?? (err as Error).message,
                 );
             }

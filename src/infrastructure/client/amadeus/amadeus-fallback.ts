@@ -4,12 +4,13 @@ import { AppLogger } from 'src/core/domain/utils';
 export async function amadeusFallback<T>(
     callback: () => PromiseLike<T>,
     logger: AppLogger,
-    fallback: any,
+    fallback: () => any,
 ) {
     try {
         return await callback();
     } catch (err) {
-        logger.incTextMeta('ommitedError', getErrorMessage(err));
-        return fallback;
+        logger.error(getErrorMessage(err));
+        // logger.incTextMeta('ommitedError', getErrorMessage(err));
+        return fallback();
     }
 }
