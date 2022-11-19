@@ -8,5 +8,6 @@ export interface LoggerMetadata {
   responseTime: number;
   originIp: string;
   userAgent: string;
+  ommitedError?: string;
 }
 export class AppLogger extends ContextLogger<LoggerMetadata> {}

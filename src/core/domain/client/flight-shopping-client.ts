@@ -1,3 +1,4 @@
+import { FlightDestinationsRequest } from '../model/flight-destinations-request';
 import {
   FlightDateRequest,
   FlightSearchRequest,
@@ -11,5 +12,9 @@ export abstract class FlightShoppingClient {
 
   abstract getFlightDates(
     request: FlightDateRequest,
+  ): Promise<FlightSearchResponse[]>;
+
+  abstract getFlightDestinations(
+    request: FlightDestinationsRequest,
   ): Promise<FlightSearchResponse[]>;
 }

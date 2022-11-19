@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
 import { AppLogger } from 'src/core/domain/utils';
+import { getErrorMessage } from '../../../core/domain/utils/get-error-message';
 
 @Injectable()
 @Catch()
@@ -22,12 +23,7 @@ export class GlobalExceptionsFilter implements ExceptionFilter {
       response.status(exception.getStatus()).send(exception.getResponse());
     } else {
       const status = HttpStatus.INTERNAL_SERVER_ERROR;
-      this.logger.addMeta(
-        'unhandledError',
-        (exception as any).response?.body ??
-          exception.stack ??
-          exception.message,
-      );
+      this.logger.addMeta('unhandledError', getErrorMessage(exception));
 
       response.status(status).send({
         statusCode: status,

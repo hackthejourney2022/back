@@ -2,6 +2,7 @@ export * from './airport';
 export * from './category-rated-area';
 export * from './coordinates';
 export * from './flight-date-request';
+export * from './flight-destinations-request';
 export * from './flight-search-request';
 export * from './flight-search-response';
 export * from './place-airports';
