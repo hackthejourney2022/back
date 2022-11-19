@@ -63,12 +63,11 @@ export class FlightRecommendationService {
                             1,
                         )
                     )?.[0],
-                    volunteering: (
+                    volunteering:
                         await this.volunteeringInstitutionRepository.get(
                             x.cityData.geoCode,
                             1,
-                        )
-                    ),
+                        ),
                 };
             })
             .filter('safePlace')
@@ -92,7 +91,7 @@ export class FlightRecommendationService {
                     x.flight,
                     x.safePlace,
                     x.score,
-                    x.volunteering
+                    x.volunteering,
                 ),
             )
             .toArray();

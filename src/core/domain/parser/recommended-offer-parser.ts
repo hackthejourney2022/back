@@ -40,7 +40,11 @@ export class RecommendedOfferParser {
                 attractions: this.getScore(attractionsDetails),
                 security: this.getScore(fluentObject(safePlace.safetyScores)),
                 volunteering: {
-                    overallScore: volunteering.length > 0 ? volunteering.reduce((a, b) => a + b.score, 0) / volunteering.length : 0,
+                    overallScore:
+                        volunteering.length > 0
+                            ? volunteering.reduce((a, b) => a + b.score, 0) /
+                              volunteering.length
+                            : 0,
                     details: volunteering,
                 },
                 reviews: {
