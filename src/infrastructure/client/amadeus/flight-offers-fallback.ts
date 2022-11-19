@@ -6,7 +6,7 @@ export const flightDestinationsFallback = {
         {
             type: 'flight-destination',
             origin: 'MAD',
-            destination: 'ALC',
+            destination: 'BLR',
             departureDate: '2023-03-23',
             returnDate: '2023-03-26',
             price: {
@@ -38,7 +38,7 @@ export const flightDestinationsFallback = {
         {
             type: 'flight-destination',
             origin: 'MAD',
-            destination: 'MUC',
+            destination: 'BCN',
             departureDate: '2023-01-12',
             returnDate: '2023-01-17',
             price: {
@@ -54,7 +54,7 @@ export const flightDestinationsFallback = {
         {
             type: 'flight-destination',
             origin: 'MAD',
-            destination: 'WAW',
+            destination: 'TXL',
             departureDate: '2022-12-30',
             returnDate: '2023-01-06',
             price: {
@@ -70,7 +70,7 @@ export const flightDestinationsFallback = {
         {
             type: 'flight-destination',
             origin: 'MAD',
-            destination: 'KRK',
+            destination: 'NYC',
             departureDate: '2022-12-25',
             returnDate: '2023-01-01',
             price: {
@@ -86,7 +86,7 @@ export const flightDestinationsFallback = {
         {
             type: 'flight-destination',
             origin: 'MAD',
-            destination: 'GOA',
+            destination: 'CDG',
             departureDate: '2023-02-07',
             returnDate: '2023-02-11',
             price: {
@@ -118,7 +118,7 @@ export const flightDestinationsFallback = {
         {
             type: 'flight-destination',
             origin: 'MAD',
-            destination: 'VCE',
+            destination: 'SFO',
             departureDate: '2023-03-25',
             returnDate: '2023-03-26',
             price: {

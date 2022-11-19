@@ -11,39 +11,39 @@ import * as api from '@opentelemetry/api';
 import { AsyncHooksContextManager } from '@opentelemetry/context-async-hooks';
 
 export async function httpMain() {
-  const contextManager = new AsyncHooksContextManager();
-  contextManager.enable();
-  api.context.setGlobalContextManager(contextManager);
+    const contextManager = new AsyncHooksContextManager();
+    contextManager.enable();
+    api.context.setGlobalContextManager(contextManager);
 
-  const app = await NestFactory.create(
-    HttpModule,
-    new FastifyAdapter({
-      bodyLimit: 52428800,
-      maxParamLength: 52428800,
-      querystringParser: qs.parse.bind(qs),
-    }),
-  );
-  app.enableCors({
-    allowedHeaders: '*',
-  });
+    const app = await NestFactory.create(
+        HttpModule,
+        new FastifyAdapter({
+            bodyLimit: 52428800,
+            maxParamLength: 52428800,
+            querystringParser: qs.parse.bind(qs),
+        }),
+    );
+    app.enableCors({
+        allowedHeaders: '*',
+    });
 
-  app.useGlobalFilters(app.get(GlobalExceptionsFilter));
-  const { name, version } = sync();
-  const options = new DocumentBuilder()
-    .setTitle(name)
-    .setVersion(version)
-    .build();
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('docs', app, document);
-  const { port, keepAliveTimeout } = app.get(HttpServerConfig);
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
-    }),
-  );
+    app.useGlobalFilters(app.get(GlobalExceptionsFilter));
+    const { name, version } = sync();
+    const options = new DocumentBuilder()
+        .setTitle(name)
+        .setVersion(version)
+        .build();
+    const document = SwaggerModule.createDocument(app, options);
+    SwaggerModule.setup('docs', app, document);
+    const { port, keepAliveTimeout } = app.get(HttpServerConfig);
+    app.useGlobalPipes(
+        new ValidationPipe({
+            transform: true,
+            whitelist: true,
+            forbidNonWhitelisted: true,
+        }),
+    );
 
-  await app.listen(port, '0.0.0.0');
-  app.getHttpServer().keepAliveTimeout = keepAliveTimeout;
+    await app.listen(port, '0.0.0.0');
+    app.getHttpServer().keepAliveTimeout = keepAliveTimeout;
 }

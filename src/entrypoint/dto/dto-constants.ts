@@ -4,3 +4,4 @@ export const IATA_SIZE = 3;
 export const MIN_ADULTS = 1;
 export const MAX_PASSENGERS = 9;
 export const MIN_NON_ADULT_PASSENGERS = 0;
+export const STRING_BOOLEAN = ['true', 'false'];

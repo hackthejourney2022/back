@@ -1,6 +1,6 @@
 export abstract class RedisConfig {
-  url!: string;
-  options!: {
-    password: string | undefined;
-  };
+    url!: string;
+    options!: {
+        password: string | undefined;
+    };
 }

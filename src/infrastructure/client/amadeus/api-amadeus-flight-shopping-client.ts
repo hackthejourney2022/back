@@ -12,7 +12,7 @@ import { depaginateAmadeus } from './depaginate-amadeus';
 import { FlightShoppingClient } from 'src/core/domain/client';
 import ms from 'ms';
 import { flightDestinationsFallback } from './flight-offers-fallback';
-import { getErrorMessage } from 'src/core/domain/utils/get-error-message';
+import { amadeusFallback } from './amadeus-fallback';
 
 const DEFAULT_AVAILABILITY_CACHE_TTL = ms('5m');
 @Injectable()
@@ -56,22 +56,17 @@ export class ApiAmadeusFlightShoppingClient implements FlightShoppingClient {
     async getFlightDestinations(
         request: FlightDestinationsRequest,
     ): Promise<any> {
-        try {
-            return await this.cache.get(
-                `getFlightDestinations:${request.origin}:${request.departureDate}:${request.duration}:${request.oneWay}:${request.maxPrice}`,
-                async () => {
-                    const body =
-                        await this.amadeus.shopping.flightDestinations.get(
-                            request,
-                        );
-                    return body.data;
-                },
-                undefined,
-                DEFAULT_AVAILABILITY_CACHE_TTL,
-            );
-        } catch (err) {
-            this.logger.addMeta('ommitedError', getErrorMessage(err));
-            return flightDestinationsFallback;
-        }
+        return amadeusFallback(
+            () =>
+                this.cache.get(
+                    `getFlightDestinations:${request.origin}:${request.departureDate}:${request.duration}:${request.oneWay}:${request.maxPrice}`,
+                    async () =>
+                        this.amadeus.shopping.flightDestinations.get(request),
+                    undefined,
+                    DEFAULT_AVAILABILITY_CACHE_TTL,
+                ),
+            this.logger,
+            flightDestinationsFallback,
+        );
     }
 }
