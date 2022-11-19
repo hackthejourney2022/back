@@ -3,6 +3,7 @@ import {
     AmadeusHttpResponse,
     AmadeusLocation,
     CategoryRatedArea,
+    CheapFlightDate,
 } from './models';
 export interface Amadeus {
     next(nextToken: any): Promise<any>;
@@ -103,7 +104,7 @@ export interface Shopping {
     flightDestinations: AmadeusRequests;
     flightOffers: FlightOffers;
     flightOffersSearch: AmadeusRequests<FlightSearchResponse[]>;
-    flightDates: AmadeusRequests;
+    flightDates: AmadeusRequests<CheapFlightDate[]>;
     seatmaps: AmadeusRequests;
     hotelOffers: AmadeusRequests;
     hotelOffersByHotel: AmadeusRequests;
@@ -266,7 +267,7 @@ interface Warnings {
     items: Items;
 }
 
-interface Items {
+interface Items extends AmadeusRequests<any[]> {
     $ref: string;
 }
 

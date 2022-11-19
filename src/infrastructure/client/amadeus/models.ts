@@ -52,6 +52,9 @@ export class Meta {
 
 export class Links {
     self!: string;
+    next?: string;
+    first?: string;
+    last?: string;
 }
 
 export class Request {
@@ -130,4 +133,23 @@ export class Sight {
     overall!: number;
     historical!: number;
     beachAndPark!: number;
+}
+
+export class CheapFlightDate {
+    type!: string;
+    origin!: string;
+    destination!: string;
+    departureDate!: string;
+    returnDate!: string;
+    price!: Price;
+    links!: CheapFlightLinks;
+}
+
+export class CheapFlightLinks {
+    flightDestinations!: string;
+    flightOffers!: string;
+}
+
+export class Price {
+    total!: string;
 }

@@ -1,6 +1,7 @@
 import { Amadeus } from './base-amadeus-client';
 import { Inject, Injectable } from '@nestjs/common';
 import {
+    FlightDateRequest,
     FlightSearchRequest,
     FlightSearchResponse,
 } from 'src/core/domain/model';
@@ -26,6 +27,20 @@ export class ApiAmadeusFlightShoppingClient implements FlightShoppingClient {
                 depaginateAmadeus(
                     this.amadeus,
                     (x) => this.amadeus.shopping.flightOffersSearch.get(x),
+                    request,
+                ).toArray(),
+            undefined,
+            DEFAULT_AVAILABILITY_CACHE_TTL,
+        );
+    }
+
+    async getFlightDates(request: FlightDateRequest): Promise<any[]> {
+        return this.cache.get(
+            `getFlightDates:${request.origin}:${request.destination}`,
+            () =>
+                depaginateAmadeus(
+                    this.amadeus,
+                    (x) => this.amadeus.shopping.flightDates.get(x),
                     request,
                 ).toArray(),
             undefined,

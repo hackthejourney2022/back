@@ -24,7 +24,9 @@ export class GlobalExceptionsFilter implements ExceptionFilter {
       const status = HttpStatus.INTERNAL_SERVER_ERROR;
       this.logger.addMeta(
         'unhandledError',
-        exception.stack ?? exception.message,
+        (exception as any).response?.body ??
+          exception.stack ??
+          exception.message,
       );
 
       response.status(status).send({
