@@ -21,13 +21,26 @@ export class MemoryVolunteeringInstitutionRepository
 
     async get(
         _request: Coordinates,
+        flags: { sponsor: boolean },
         _maxResults?: number | undefined,
     ): Promise<VolunteeringInstitution[]> {
-        return getRandomItems(
-            volunteeringInstitutions,
-            TOTAL_INSTITUTIONS,
-            this.logger,
-            'getVolunteeringInstitution',
-        );
+        if (flags.sponsor) {
+            return getRandomItems(
+                volunteeringInstitutions,
+                TOTAL_INSTITUTIONS,
+                this.logger,
+                'getVolunteeringInstitution',
+            );
+        }
+        flags.sponsor = true;
+        return [
+            volunteeringInstitutions[0],
+            ...getRandomItems(
+                volunteeringInstitutions.slice(1),
+                TOTAL_INSTITUTIONS - 1,
+                this.logger,
+                'getVolunteeringInstitution',
+            ),
+        ];
     }
 }

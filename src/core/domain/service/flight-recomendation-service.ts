@@ -76,6 +76,8 @@ export class FlightRecommendationService {
     async get(
         request: FlightDestinationsRequest,
     ): Promise<RecommendationResponse> {
+        const flags = { sponsor: false };
+
         const flights = await this.flightShopping.getFlightDestinations(
             request,
         );
@@ -116,6 +118,7 @@ export class FlightRecommendationService {
                     volunteering:
                         await this.volunteeringInstitutionRepository.get(
                             x.cityData.geoCode,
+                            flags,
                             1,
                         ),
                     description: await this.descriptions.get(

@@ -57,6 +57,6 @@ export class LocationService {
     getVolunteeringInstitutions(
         request: Coordinates,
     ): Promise<VolunteeringInstitution[]> {
-        return this.volunteeringInstitution.get(request);
+        return this.volunteeringInstitution.get(request, { sponsor: true });
     }
 }
