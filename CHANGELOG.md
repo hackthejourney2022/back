@@ -1,3 +1,10 @@
+## [0.9.2](https://github.com/hackthejourney2022/back/compare/v0.9.1...v0.9.2) (2022-11-19)
+
+
+### Bug Fixes
+
+* adding square whitelist for test environment fit ([#15](https://github.com/hackthejourney2022/back/issues/15)) ([3900bec](https://github.com/hackthejourney2022/back/commit/3900beccddeba081213c3c1bcad843837d4592a3))
+
 ## [0.9.1](https://github.com/hackthejourney2022/back/compare/v0.9.0...v0.9.1) (2022-11-19)
 
 
