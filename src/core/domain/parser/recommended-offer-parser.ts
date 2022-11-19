@@ -63,13 +63,14 @@ export class RecommendedOfferParser {
         values: FluentIterable<[keyof T, number]>,
     ): ScoreOverview<T> {
         const details = {} as Record<keyof T, number>;
-        const overallScore = this.getOverAllScore(
-            values
-                .execute(([k, v]) => {
-                    details[k] = v / SCALE_CONVERSION;
-                })
-                .map('1'),
-        );
+        const overallScore =
+            this.getOverAllScore(
+                values
+                    .execute(([k, v]) => {
+                        details[k] = v * SCALE_CONVERSION;
+                    })
+                    .map('1'),
+            ) * SCALE_CONVERSION;
 
         return {
             overallScore,
@@ -78,6 +79,6 @@ export class RecommendedOfferParser {
     }
 
     private getOverAllScore(values: FluentIterable<number>) {
-        return values.avg((x) => x || 0) / SCALE_CONVERSION;
+        return values.avg((x) => x || 0);
     }
 }

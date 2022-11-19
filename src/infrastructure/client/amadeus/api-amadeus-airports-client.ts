@@ -16,14 +16,17 @@ export class ApiAmadeusAirportsClient implements AirportsClient {
             this.getNearestAirports.bind(this),
             (req, maxResults) =>
                 `getNearestAirports:${req.latitude}:${req.longitude}:${maxResults}`,
+            (x) => !x,
         );
         this.getAirportByIata = this.cache.wrap(
             this.getAirportByIata.bind(this),
             (iata) => `getAirportByIata:${iata}`,
+            (x) => !x,
         );
         this.getCity = this.cache.wrap(
             this.getCity.bind(this),
             (address) => `getCity:${address.countryCode}:${address.cityName}`,
+            (x) => !x,
         );
     }
 

@@ -66,7 +66,7 @@ export class ApiAmadeusFlightShoppingClient implements FlightShoppingClient {
                     DEFAULT_AVAILABILITY_CACHE_TTL,
                 ),
             this.logger,
-            flightDestinationsFallback,
+            () => flightDestinationsFallback,
         );
     }
 }

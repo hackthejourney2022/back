@@ -15,6 +15,7 @@ export class MemoryVolunteeringInstitutionRepository
             this.get.bind(this),
             (req, maxResults) =>
                 `getVolunteeringInstitution:${req.latitude}:${req.longitude}:${maxResults}`,
+            (x) => !x,
         );
     }
 

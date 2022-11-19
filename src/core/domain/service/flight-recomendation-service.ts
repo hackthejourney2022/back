@@ -51,7 +51,7 @@ export class FlightRecommendationService {
             }))
             .filter('cityData')
             .map(async (x) => {
-                return {
+                const result = {
                     ...x,
                     safePlace: (
                         await this.safePlace.getSafetyRate(
@@ -72,6 +72,7 @@ export class FlightRecommendationService {
                         ),
                     reviews: await this.reviews.get(x.flight.destination),
                 };
+                return result;
             })
             .filter('safePlace')
             .filter('score')

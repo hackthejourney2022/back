@@ -27,7 +27,11 @@ export class NominatimGeocoderClient implements GeocoderClient {
         private client: HttpNominatimClient,
         private cache: GeneralCache,
     ) {
-        this.getPlaces = this.cache.wrap(this.getPlaces.bind(this), identity);
+        this.getPlaces = this.cache.wrap(
+            this.getPlaces.bind(this),
+            identity,
+            (x) => !x,
+        );
     }
 
     async getPlaces(search: string): Promise<Place[]> {

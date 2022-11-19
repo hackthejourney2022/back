@@ -1,6 +1,5 @@
 import { AppLogger } from 'src/core/domain/utils';
 import winston from 'winston';
-import { openTelemetryContextProvider } from 'winston-context-logger-open-telemetry';
 
 const baseLogger = winston.createLogger();
 baseLogger.add(
@@ -18,4 +17,4 @@ baseLogger.add(
     }),
 );
 
-export const logger = new AppLogger(baseLogger, openTelemetryContextProvider);
+export const logger = baseLogger as unknown as AppLogger;

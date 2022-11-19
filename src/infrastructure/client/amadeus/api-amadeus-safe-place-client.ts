@@ -1,4 +1,4 @@
-import { AppLogger } from 'src/core/domain/utils';
+import { AppLogger, randomInt } from 'src/core/domain/utils';
 import { Amadeus } from './base-amadeus-client';
 import { Inject, Injectable } from '@nestjs/common';
 import { Coordinates } from 'src/core/domain/model';
@@ -7,6 +7,7 @@ import { depaginateAmadeus } from './depaginate-amadeus';
 import { SafePlaceClient } from 'src/core/domain/client/safe-place-client';
 import { amadeusFallback } from './amadeus-fallback';
 import { SafetyRateResponse } from 'src/core/domain/model/safety-rate-response';
+import { safePlaceFallback } from './flight-offers-fallback';
 
 @Injectable()
 export class ApiAmadeusSafePlaceClient implements SafePlaceClient {
@@ -19,6 +20,7 @@ export class ApiAmadeusSafePlaceClient implements SafePlaceClient {
             this.getSafetyRate.bind(this),
             (req, maxResults) =>
                 `getSafetyRate:${req.latitude}:${req.longitude}:${maxResults}`,
+            (x) => !x,
         );
     }
 
@@ -35,7 +37,7 @@ export class ApiAmadeusSafePlaceClient implements SafePlaceClient {
                     maxResults,
                 ).toArray(),
             this.logger,
-            undefined,
+            () => [safePlaceFallback[randomInt(0, safePlaceFallback.length)]],
         );
     }
 }

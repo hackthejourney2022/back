@@ -11,6 +11,7 @@ export class MemoryReviewsRepository implements ReviewsRepository {
         this.get = this.cache.wrap(
             this.get.bind(this),
             (req) => `getReviews:${req}`,
+            (x) => !x,
         );
     }
 

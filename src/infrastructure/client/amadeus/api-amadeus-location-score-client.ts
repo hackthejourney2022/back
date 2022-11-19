@@ -1,4 +1,5 @@
-import { AppLogger } from 'src/core/domain/utils';
+import { locationScoreFallback } from './flight-offers-fallback';
+import { AppLogger, randomInt } from 'src/core/domain/utils';
 import { Amadeus } from './base-amadeus-client';
 import { Inject, Injectable } from '@nestjs/common';
 import { Coordinates } from 'src/core/domain/model';
@@ -19,6 +20,7 @@ export class ApiAmadeusLocationScoreClient implements LocationScoreClient {
             this.getCategoryRatedAreas.bind(this),
             (req, maxResults) =>
                 `getCategoryRatedAreas:${req.latitude}:${req.longitude}:${maxResults}`,
+            (x) => !x,
         );
     }
 
@@ -38,7 +40,11 @@ export class ApiAmadeusLocationScoreClient implements LocationScoreClient {
                     maxResults,
                 ).toArray(),
             this.logger,
-            undefined,
+            () => [
+                locationScoreFallback[
+                    randomInt(0, locationScoreFallback.length)
+                ],
+            ],
         );
     }
 }
