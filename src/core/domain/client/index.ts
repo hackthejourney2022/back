@@ -1,4 +1,5 @@
 export * from './airports-client';
+export * from './currency-quotation-client';
 export * from './flight-shopping-client';
 export * from './geocoder-client';
 export * from './location-score-client';
