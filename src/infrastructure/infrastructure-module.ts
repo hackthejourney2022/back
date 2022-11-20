@@ -1,3 +1,4 @@
+import { MockedCurrencyQuotationClient } from './client/mocked-currency/mocked-currency-quotation-client';
 import { MemoryLocationDescriptionRepository } from './repository/memory-location-description-repository';
 import { LocationDescriptionRepository } from 'src/core/domain/repository/location-description-repository';
 import { MemoryReviewsRepository } from './repository/memory-reviews-repository';
@@ -6,6 +7,7 @@ import { ApiAmadeusSafePlaceClient } from './client/amadeus/api-amadeus-safe-pla
 import { SafePlaceClient } from 'src/core/domain/client/safe-place-client';
 import {
     AirportsClient,
+    CurrencyQuotationClient,
     FlightShoppingClient,
     GeocoderClient,
     LocationScoreClient,
@@ -51,6 +53,10 @@ import { MemoryVolunteeringInstitutionRepository } from 'src/infrastructure/repo
         {
             provide: AirportsClient,
             useClass: ApiAmadeusAirportsClient,
+        },
+        {
+            provide: CurrencyQuotationClient,
+            useClass: MockedCurrencyQuotationClient,
         },
         {
             provide: FlightShoppingClient,
@@ -136,6 +142,7 @@ import { MemoryVolunteeringInstitutionRepository } from 'src/infrastructure/repo
     exports: [
         AirportsClient,
         AppLogger,
+        CurrencyQuotationClient,
         FlightShoppingClient,
         GeocoderClient,
         LocationDescriptionRepository,

@@ -11,6 +11,7 @@ import {
     LocationScoreClient,
     FlightShoppingClient,
     AirportsClient,
+    CurrencyQuotationClient,
 } from 'src/core/domain/client';
 import { Injectable } from '@nestjs/common';
 import { VolunteeringInstitutionRepository } from '../repository/volunteering-institution-repository';
@@ -71,6 +72,7 @@ export class FlightRecommendationService {
         private volunteeringInstitutionRepository: VolunteeringInstitutionRepository,
         private reviews: ReviewsRepository,
         private descriptions: LocationDescriptionRepository,
+        private currencyQuotation: CurrencyQuotationClient,
     ) {}
 
     async get(
@@ -81,12 +83,23 @@ export class FlightRecommendationService {
         const flights = await this.flightShopping.getFlightDestinations(
             request,
         );
+        const currencyFactor = await this.currencyQuotation.getCurrentQuotation(
+            flights.meta.currency,
+            'BRL',
+        );
 
         const offers = await fluent(flights.data)
             .distinct('destination', (a, b) =>
                 a.price.total > b.price.total ? b : a,
             )
             .take(MAX_IATAS)
+            .map((x) => ({
+                ...x,
+                price: {
+                    ...x.price,
+                    total: (Number(x.price.total) * currencyFactor).toFixed(2),
+                },
+            }))
             .mapAsync(async (flight) => ({
                 flight,
                 airportData: await this.airports.getAirportByIata(

@@ -31,7 +31,11 @@ export class ApiAmadeusFlightShoppingClient implements FlightShoppingClient {
             () =>
                 depaginateAmadeus(
                     this.amadeus,
-                    (x) => this.amadeus.shopping.flightOffersSearch.get(x),
+                    (x) =>
+                        this.amadeus.shopping.flightOffersSearch.get({
+                            ...x,
+                            currencyCode: 'BRL',
+                        }),
                     request,
                 ).toArray(),
             undefined,
