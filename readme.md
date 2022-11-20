@@ -97,3 +97,27 @@ URL da Aplicação: http://localhost:3000
 
 Para uma lista completa de exemplos de rotas desta aplicação, você pode acessar nosso Workspace público do Postman:
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/112354-2ac33112-cf06-47be-b822-a6544234939f?action=collection%2Ffork&collection-url=entityId%3D112354-2ac33112-cf06-47be-b822-a6544234939f%26entityType%3Dcollection%26workspaceId%3Dee5bb36d-8aca-4997-8a77-eb5cb1e53ef1#?env%5Bhackaton%20aws%5D=W3sia2V5IjoidXJsIiwidmFsdWUiOiJodHRwOi8vMTguMjE1LjExNy40ODozMDAwIiwiZW5hYmxlZCI6dHJ1ZSwidHlwZSI6ImRlZmF1bHQifV0=)
+
+
+## Arquitetura de microsserviços
+
+Pra publicação das nossas aplicações, adotamos uma abordagem simplificada, onde temos duas máquinas na AWS, EC2, de tamanho t2.medium, uma para o front contendo o aplicativo react, outra para o back, contendo o aplicativo de backend + uma instãncia do Redis.
+
+A arquitetura que imaginamos para este produto, no entanto, consistiria em alguns microsserviços:
+
+![arquitetura](./resources/arquitetura.png)
+
+Onde teríamos:
+
+* serviço api-users, para gerenciar o cadastro dos usuários e das ONGs cadastradas em nosso sistema
+* serviço api-shopping-service, que proveria dados de disponibilidade de voos e hoteis, além das recomendações de voos
+* serviço api-booking-service, que gerenciaria o processo de reserva e emissão. É importante deixar este serviço separado do shopping, dado que o volume de requisições de shopping tende a ser bem maior do que booking, o que faz com que ambos os serviços tenham comportamento de escala diferentes;
+* serviço api-payments, para gerenciamento de pagamentos do cliente, e possívelmente gerenciamento de ads personalizados. A infra para este ponto ainda é obscura para nós
+* bff-digital-nomad, que serviria como intermediário entre as apis do nosso sistema e o nosso website;
+* front-digital-nomad, o serviço que provê o nosso website, desenvolvido em react.
+
+Par armazenamento dos dados, teríamos um serviço de cache, possivelmente Redis, para otimização dos dados da busca. Dependendo do volume, poderíamos integrar também um S3 para cache de dados pesados junto ao redis, uma estratégia que já se mostrou válida para redução de custo.
+Também teríamos dois bancos de dados:
+
+* users database: tecnologia ainda não clara, mas provavelmente sendo um banco relacional, integrado com um cache pesado na ai para protegê-lo do volume de requisições, ou um banco não relacional, como mongo;
+* booking database: banco não relacional para armazenamento mais livre das informações de voo e diponibilidade que precisaríamos guardar para todo o processo.
