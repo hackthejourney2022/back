@@ -1,3 +1,10 @@
+# [0.11.0](https://github.com/hackthejourney2022/back/compare/v0.10.0...v0.11.0) (2022-11-20)
+
+
+### Features
+
+* adding currency quotation client ([#22](https://github.com/hackthejourney2022/back/issues/22)) ([b4dabe7](https://github.com/hackthejourney2022/back/commit/b4dabe71d9c8131589adcc250a3ff8610f8a9581))
+
 # [0.10.0](https://github.com/hackthejourney2022/back/compare/v0.9.3...v0.10.0) (2022-11-19)
 
 
