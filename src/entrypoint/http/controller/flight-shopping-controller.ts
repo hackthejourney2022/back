@@ -1,6 +1,6 @@
-import { FlightDateRequest } from './../../../core/domain/model/flight-date-request';
-import { FlightDateRequestDto, FlightSearchRequestDto } from './../../dto';
-import { FlightShoppingService } from './../../../core/domain/service/flight-shopping-service';
+import { FlightDateRequest } from '../../../core/domain/model/flight-date-request';
+import { FlightDateRequestDto, FlightSearchRequestDto } from '../../dto';
+import { FlightShoppingService } from '../../../core/domain/service/flight-shopping-service';
 import {
     FlightDestinationsRequest,
     FlightSearchRequest,
@@ -16,11 +16,9 @@ import {
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { FlightDestinationsRequestDto } from 'src/entrypoint/dto/flight-destinations-request-dto';
-import { fluent } from '@codibre/fluent-iterable';
 
-const maxResults = 3;
 @Controller('/shopping')
-export class ShoppingController {
+export class FlightShoppingController {
     constructor(private readonly service: FlightShoppingService) {}
 
     @Post('/flights')
@@ -33,29 +31,10 @@ export class ShoppingController {
 
     @Post('/summary-flights')
     @HttpCode(HttpStatus.OK)
-    public async getSummaryFlights(@Body() request: FlightSearchRequestDto) {
-        const flights = await this.service.getOffers(
+    public async getSummarizedFlights(@Body() request: FlightSearchRequestDto) {
+        return this.service.getSummarizedFlights(
             plainToInstance(FlightSearchRequest, request),
         );
-        return fluent(flights)
-            .map((x) => {
-                const firstSegment = x.itineraries[0].segments[0];
-                const lastSegment = fluent(x.itineraries[0].segments).last()!;
-                return {
-                    type: x.type,
-                    airline: firstSegment.carrierCode,
-                    itinerary: {
-                        from: firstSegment.departure.iataCode,
-                        to: lastSegment.departure.iataCode,
-                        departureDate: firstSegment.departure.at,
-                        returnDate: x.itineraries[1]?.segments[0].departure.at,
-                    },
-                    price: x.price.total,
-                };
-            })
-            .sortBy((x) => x.price)
-            .take(maxResults)
-            .toArray();
     }
 
     @Get('/flight-dates')
